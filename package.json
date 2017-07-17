@@ -1,0 +1,17 @@
+{
+  "name": "autofilebot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "autoFilebot.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "recursive-readdir": "^2.2.1"
+  },
+  "devDependencies": {
+    "fs-extra": "^4.0.0"
+  }
+}
