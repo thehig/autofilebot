@@ -9,16 +9,7 @@ const path = require("path");
 const util = require("util");
 const exec = util.promisify(require("child_process").exec);
 
-const c = {
-  debug: true,
-  from: "D:/Unsorted Torrents/2017-torrents/",
-  temp: "D:/Sorted Torrents/temp",
-  to: "D:/Sorted Torrents/TV/",
-  videoExtensions: ["mkv", "avi", "mp4"],
-  // videoExtensions: ["txt"],
-  ignorePatterns: ["RARBG.mp4", "*sample*", "*incomplete*"],
-  filebotCommand: 'filebot -rename "$PATTERN$" --db TheTVDB -non-strict'
-};
+const c = require('config');
 
 const isVideo = filename =>
   c.videoExtensions.some(ext => filename.endsWith(ext));
