@@ -9,7 +9,7 @@ const path = require("path");
 const util = require("util");
 const exec = util.promisify(require("child_process").exec);
 
-const c = require('config');
+const c = require('config'); /*?*/
 
 const isVideo = filename =>
   c.videoExtensions.some(ext => filename.endsWith(ext));
