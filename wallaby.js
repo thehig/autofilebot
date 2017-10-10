@@ -24,6 +24,11 @@ module.exports = function(wallaby) {
 
     testFramework: "mocha",
     setup: function () {
+      var chai = require("chai");
+      var chaiAsPromised = require("chai-as-promised");
+      
+      chai.use(chaiAsPromised);    
+      expect = chai.expect;  
     }
   };
 };
