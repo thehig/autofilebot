@@ -1,6 +1,10 @@
 module.exports = function() {
+  process.env.NODE_ENV = "development";
+  // process.env.NODE_CONFIG_STRICT_MODE = 1;
+
   return {
-    files: ["src/**/*.js", "!src/**/*.test.js"],
+    debug: true,
+    files: ["src/**/*.js", "!src/**/*.test.js", "config/*.yaml"],
 
     tests: ["src/**/*.test.js"],
 
