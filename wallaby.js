@@ -13,6 +13,6 @@ module.exports = function() {
       runner: "node"
     },
 
-    testFramework: "jest"
+    testFramework: "mocha"
   };
 };
