@@ -1,6 +1,8 @@
 // Create Fixtures
 const mockFs = require('mock-fs');
-const config = require('config');
+const config = require("config");
+
+config.util.getConfigSources() //?
 
 const fromDir = config.get('from');
 const tempDir = config.get('temp');
