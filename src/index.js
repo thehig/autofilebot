@@ -1,4 +1,5 @@
 const config = require("config");
+const debug = config.get("debug");
 const runFilebot = require("./filebot");
 
 const {
@@ -7,6 +8,13 @@ const {
   recurseDirForVideos,
   appendToLog
 } = require("./fileOperations");
+
+if (config.get('showConfig'))
+  console.log(`
+=== config ===
+${JSON.stringify(config.util.getConfigSources(), null, 4)}
+==============
+`);
 
 checkTempExists(config.get("temp"))
   .then(() =>

@@ -1,5 +1,6 @@
 {
   "debug": true,
+  "showConfig": false,
   "from": "D:/Unsorted Torrents/2017-torrents/",
   "temp": "D:/Sorted Torrents/temp",
   "to": "D:/Sorted Torrents/TV/",
