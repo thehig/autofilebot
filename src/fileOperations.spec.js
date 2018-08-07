@@ -1,5 +1,4 @@
 const fs = require("fs");
-const recursive = require("recursive-readdir");
 
 const { mock } = require("../spec/setup");
 
@@ -24,13 +23,6 @@ describe("fileOperations", () => {
 
     const files = fs.readdirSync(fromDir); //?
     expect(files.length).toBe(2);
-
-
-    recursive(fromDir, function (err, files) {
-      // `files` is an array of file paths
-      console.log(files);
-      done();
-    });
   });
 
   describe("recurseDirForVideos", () => {
