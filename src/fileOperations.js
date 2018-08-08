@@ -21,7 +21,7 @@ const moveFilesTo = (destination, filenames) =>
 const recurseDirForVideos = (directory, ignorePatterns) =>
   new Promise((resolve, reject) => {
     if (debug) console.log(`Looking for files in ${directory}`);
-    recursive(directory, ignorePatterns, function(err, files) {
+    return recursive(directory, ignorePatterns, function(err, files) {
       if (err) reject(err);
       const videoFiles = files.filter(isVideo);
       if (debug) console.log(`Found ${videoFiles.length} video(s)`);

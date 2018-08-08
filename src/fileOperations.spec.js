@@ -1,4 +1,4 @@
-const fs = require("fs");
+const fs = require("fs-extra");
 
 const { mock } = require("../spec/setup");
 
@@ -18,20 +18,29 @@ describe("fileOperations", () => {
     mockInstance.restore();
   });
 
-  it(`mocks ${fromDir}`, done => {
-    jest.setTimeout(30 * 1000);
-
-    const files = fs.readdirSync(fromDir); //?
-    expect(files.length).toBe(2);
+  describe('mocks', () => {
+    it(`${fromDir}`, () => {
+      const files = fs.readdirSync(fromDir); //?
+      expect(files.length).toBe(3);
+    });
+    it(`${fromDir}/complete`, () => {
+      const files = fs.readdirSync(`${fromDir}/complete`); //?
+      expect(files.length).toBe(5);
+    });
+    it(`${fromDir}/incomplete`, () => {
+      const files = fs.readdirSync(`${fromDir}/incomplete`); //?
+      expect(files.length).toBe(1);
+    });
   });
+  
 
   describe("recurseDirForVideos", () => {
-    // it(`Scans ${fromDir} for videos matching ${patterns}`, () =>
-    //   recurseDirForVideos(fromDir, patterns).then(videos => {
-    //     console.log('videos', videos);
-    //     expect(true).toEqual(false);
-    //   }));
+    it(`Scans ${fromDir} recursively`, () => {
+      return recurseDirForVideos(fromDir).then(files => {
+        expect(files.length).toBe(7);
+      });
+    });
 
-    it("do thing", () => expect(true).toEqual(true));
+    // for videos matching ${patterns}
   });
 });

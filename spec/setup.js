@@ -15,14 +15,14 @@ const mock = () => {
       incomplete: {
         // all ignored
         "someFile.mp4": ""
+      },
+      complete: {
+        "someFile.mp4": "", // included
+        "someFile.sample.mp4": "", // ignored
+        "someFile sample.mp4": "", // ignored
+        "someFile SAMPLE.mp4": "", // ignored
+        "someFile Sample.mp4": "" // ignored
       }
-      //     complete: {
-      //       'someFile.mp4': '', // included
-      //       'someFile.sample.mp4': '', // ignored
-      //       'someFile sample.mp4': '', // ignored
-      //       'someFile SAMPLE.mp4': '', // ignored
-      //       'someFile Sample.mp4': '' // ignored
-      //     }
     }
   });
 
