@@ -2,11 +2,12 @@ const config = require("config");
 const debug = config.get("debug");
 
 // Traverse directory recursively
-const recursive = require("recursive-readdir");
 // Perform file system ops (check dir exists, move files)
 const fs = require("fs-extra");
 // Determine folder, extension, directory
 const path = require("path");
+
+const glob = require('glob');
 
 const isVideo = filename =>
   config.get("videoExtensions").some(ext => filename.endsWith(ext));
@@ -18,10 +19,10 @@ const moveFilesTo = (destination, filenames) =>
     fs.move(filename, path.join(destination, path.basename(filename)))
   );
 
-const recurseDirForVideos = (directory, ignorePatterns) =>
+const recurseDirForVideos = (directory) =>
   new Promise((resolve, reject) => {
     if (debug) console.log(`Looking for files in ${directory}`);
-    return recursive(directory, ignorePatterns, function(err, files) {
+    glob(`${directory}/**/*.*`, function(err, files) {
       if (err) reject(err);
       const videoFiles = files.filter(isVideo);
       if (debug) console.log(`Found ${videoFiles.length} video(s)`);

@@ -7,8 +7,14 @@ config.util.getConfigSources(); //?
 const fromDir = config.get("from"); //?
 const tempDir = config.get("temp"); //?
 
+const pwd = process.env.pwd; //?
+
 const mock = () => {
+  console.log('Mocking fs');
   mockFs({
+    [`${pwd}/node_modules/callsites`]: {
+      "index.js": ""
+    },
     [fromDir]: {
       // unprocessed video
       "RARBG.mp4": "", // ignored
