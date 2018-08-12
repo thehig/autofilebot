@@ -25,7 +25,6 @@ const fileStructure = {
 const { walk } = require("./fileOperations");
 
 describe("fileOperations", () => {
-
   beforeEach(() => {
     mock(fileStructure);
   });
@@ -41,8 +40,30 @@ describe("fileOperations", () => {
           expect(files.length).toBe(7);
           done();
         })
-        .catch(err => done.fail(err))
-      );
+        .catch(err => done.fail(err)));
+    it(`takes an array filter fn (1)`, done =>
+      walk(`${fromDir}`, file => file.indexOf("RARBG") === -1)
+        .then(files => {
+          expect(files.length).toBe(6);
+          done();
+        })
+        .catch(err => done.fail(err)));
+    it(`takes an array filter fn (2)`, done =>
+      walk(`${fromDir}`, file => file.indexOf("someFile") === -1)
+        .then(files => {
+          expect(files.length).toBe(1);
+          done();
+        })
+        .catch(err => done.fail(err)));
+    it("catches a broken filter", done =>
+      walk(`${fromDir}`, () => {
+        throw new Error("should catch");
+      })
+        .then(() => done.fail("Should have thrown"))
+        .catch(err => {
+          expect(err.message).toContain("should catch");
+          done();
+        }));
   });
 
   // describe("recurseDirForVideos", () => {

@@ -27,10 +27,10 @@ const _walk = function(dir, done) {
   });
 };
 
-const walk = directory =>
-  new Promise((resolve, reject) => {
-    _walk(directory, (err, results) => (err ? reject(err) : resolve(results)));
-  });
+const walk = (directory, filter) =>
+  new Promise((resolve, reject) =>
+    _walk(directory, (err, results) => (err ? reject(err) : resolve(results)))
+  ).then(results => (filter ? results.filter(filter) : results));
 
 // const isVideo = filename =>
 //   config.get("videoExtensions").some(ext => filename.endsWith(ext));
