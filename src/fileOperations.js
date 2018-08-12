@@ -56,7 +56,7 @@ const moveFiles = (destination, filenames) =>
   );
 
 const appendToLog = (directory, filename, contents) =>
-  new Promise((resolve, reject) => {
+  new Promise(resolve => {
     const destination = path.join(directory, filename);
     const output = `
 =======${new Date()}========
@@ -64,8 +64,10 @@ ${JSON.stringify(contents)}
 `;
     if (debug)
       console.log(`
-Appending logfile: ${destination}
+Appending logfile: "${destination}"
+"""
 ${output}
+"""
 `);
 
     resolve(fs.writeFile(destination, output, { flag: "a", encoding: "utf8" }));

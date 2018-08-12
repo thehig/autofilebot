@@ -10,6 +10,6 @@ module.exports /* const runFilebot */ = directory =>
     const filebotCommand = config
       .get("filebotCommand")
       .replace("$PATTERN$", directory);
-    if (debug) console.log(`Running filebot: ${filebotCommand}`);
+    console.log(`Running filebot: ${filebotCommand}`);
     resolve(exec(filebotCommand));
   });
