@@ -4,6 +4,7 @@ const fs = require("fs");
 
 const config = require("config");
 const fromDir = config.get("from"); //?
+const toDir = config.get("to"); //?
 
 const fileStructure = {
   [fromDir]: {
@@ -23,7 +24,14 @@ const fileStructure = {
   }
 };
 
-const { walk, ensureDir, isVideo, isIgnored } = require("./fileOperations");
+const {
+  walk,
+  ensureDir,
+  isVideo,
+  isIgnored,
+  getVideos,
+  moveFiles
+} = require("./fileOperations");
 
 describe("fileOperations", () => {
   beforeEach(() => {
@@ -67,20 +75,7 @@ describe("fileOperations", () => {
         }));
   });
 
-  describe("ensureDir", () => {
-    it("creates the folder if it doesnt exist", done => {
-      const file = `${fromDir}/doesntExist`;
-      expect(fs.existsSync(file)).toBe(false);
-      ensureDir(file)
-        .then(() => {
-          expect(fs.existsSync(file)).toBe(true);
-          done();
-        })
-        .catch(err => done.fail(err));
-    });
-  });
-
-  describe("isVideo filters", () => {
+  describe("isVideo", () => {
     describe("excludes", () => {
       it("someFile.txt", () => expect(isVideo("someFile.txt")).toBe(false));
       it("someFile.nfo", () => expect(isVideo("someFile.nfo")).toBe(false));
@@ -93,7 +88,7 @@ describe("fileOperations", () => {
     });
   });
 
-  describe("isIgnored filters", () => {
+  describe("isIgnored", () => {
     describe("excludes", () => {
       it("RARBG.mp4", () => expect(isIgnored("RARBG.mp4")).toBe(true));
       it("incomplete/someFile.mp4", () =>
@@ -109,17 +104,48 @@ describe("fileOperations", () => {
     });
     describe("includes", () => {
       it("someFile.mp4", () => expect(isIgnored("someFile.mp4")).toBe(false));
-      it("complete/someFile.avi", () => expect(isIgnored("complete/someFile.avi")).toBe(false));
+      it("complete/someFile.avi", () =>
+        expect(isIgnored("complete/someFile.avi")).toBe(false));
     });
   });
 
-  // describe("recurseDirForVideos", () => {
-  //   it(`Scans ${fromDir} recursively`, () => {
-  //     return recurseDirForVideos(fromDir).then(files => {
-  //       expect(files.length).toBe(7);
-  //     });
-  //   });
+  describe("getVideos", () => {
+    it("gets the 1 matching video", done =>
+      getVideos(fromDir)
+        .then(videos => {
+          expect(videos.length).toBe(1);
+          done();
+        })
+        .catch(err => done.fail(err)));
+  });
 
-  //   // for videos matching ${patterns}
-  // });
+  describe("ensureDir", () => {
+    it("creates the folder if it doesnt exist", done => {
+      const file = `${fromDir}/doesntExist`;
+      expect(fs.existsSync(file)).toBe(false);
+      ensureDir(file)
+        .then(() => {
+          expect(fs.existsSync(file)).toBe(true);
+          done();
+        })
+        .catch(err => done.fail(err));
+    });
+  });
+
+  describe("move files", () => {
+    it("moves a list of files", done => {
+      const sourceFilename = `${fromDir}/complete/someFile.mp4`;
+      expect(fs.existsSync(sourceFilename)).toBe(true);
+      const expectedFileName = `${toDir}/someFile.mp4`;
+      expect(fs.existsSync(expectedFileName)).toBe(false);
+
+      moveFiles(toDir, [sourceFilename])
+        .then(() => {
+          expect(fs.existsSync(sourceFilename)).toBe(false);
+          expect(fs.existsSync(expectedFileName)).toBe(true);
+          done();
+        })
+        .catch(err => done.fail(err));
+    });
+  });
 });

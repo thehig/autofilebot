@@ -4,6 +4,11 @@ const path = require("path");
 const config = require("config");
 const debug = config.get("debug");
 
+const ensureDir = dir =>
+  new Promise((resolve, reject) => {
+    fs.ensureDir(dir, err => (err ? reject(err) : resolve()));
+  });
+
 const _walk = function(dir, done) {
   var results = [];
   fs.readdir(dir, function(err, list) {
@@ -40,54 +45,15 @@ const isIgnored = filename =>
     .get("ignorePatterns")
     .some(pattern => new RegExp(pattern, "i").test(filename));
 
-const ensureDir = dir =>
-  new Promise((resolve, reject) => {
-    fs.ensureDir(dir, err => (err ? reject(err) : resolve()));
-  });
+const getVideos = directory =>
+  walk(directory, filename => isVideo(filename) && !isIgnored(filename));
 
-// const moveFilesTo = (destination, filenames) =>
-//   filenames.map(filename =>
-//     fs.move(filename, path.join(destination, path.basename(filename)))
-//   );
-
-// const recursiveWalk = directory =>
-//   new Promise((resolve, reject) => {
-//     const fileList = [];
-//     fs.readdir(directory, (err, files) => {
-//       if (!files) return;
-
-//       files.map(file => {
-//         console.log(JSON.stringify(file));
-//         const fullName = `${directory}/${file}`;
-
-//         fs.lstatSync(fullName).isDirectory(); //?
-//         // console.log('stat', fullName, file);
-//         // fs.statSync(fullName); //?
-//         // console.log(fullName);
-//         // fs.stat(fullName, (err, thing) => {
-//         //   console.log("err, thing", err, thing);
-//         // });
-//         // if (fs.statSync(`${directory}/${file}`).isDirectory()) {
-//         //   console.log("directory:", file);
-//         // }
-//       });
-//     });
-//     reject();
-//   });
-
-// const recurseDirForVideos = directory =>
-//   new Promise((resolve, reject) => {
-//     if (debug) console.log(`Looking for files in ${directory}`);
-//     glob(`${directory}/**/*.*`, function(err, files) {
-//       if (err) reject(err);
-//       const videoFiles = files.filter(isVideo);
-//       if (debug) console.log(`Found ${videoFiles.length} video(s)`);
-//       resolve(videoFiles);
-//       // videoFiles.length == 0
-//       //   ? reject("No video files found")
-//       //   : resolve(videoFiles);
-//     });
-//   });
+const moveFiles = (destination, filenames) =>
+  Promise.all(
+    filenames.map(filename =>
+      fs.move(filename, path.join(destination, path.basename(filename)))
+    )
+  );
 
 // const appendToLog = (directory, log) =>
 //   new Promise((resolve, reject) => {
@@ -111,5 +77,7 @@ module.exports = {
   walk,
   ensureDir,
   isVideo,
-  isIgnored
+  isIgnored,
+  getVideos,
+  moveFiles
 };
