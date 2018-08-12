@@ -1,6 +1,7 @@
 const config = require("config");
 const debug = config.get("debug");
 const runFilebot = require("./filebot");
+const chalk = require("chalk");
 
 const {
   ensureDir,
@@ -17,7 +18,9 @@ ${JSON.stringify(config.util.getConfigSources(), null, 4)}
 `);
 
 const prettifyFileList = filenames =>
-  filenames.map(f => "\n\t* " + f.substring(f.lastIndexOf("\\") + 1)).join("");
+  filenames
+    .map(f => "\n\t* " + chalk.green(f.substring(f.lastIndexOf("\\") + 1)))
+    .join("");
 
 // Make sure "temp/" exists
 ensureDir(config.get("temp"))
@@ -35,7 +38,9 @@ ensureDir(config.get("temp"))
   .then(filenames => {
     // User-friendly output
     console.log(
-      `Moving ${config.get("from")} => ${config.get("temp")}`,
+      `Moving ${chalk.yellow(config.get("from"))} => ${chalk.yellow(
+        config.get("temp")
+      )}`,
       prettifyFileList(filenames)
     );
     return moveFiles(config.get("temp"), filenames);
@@ -61,7 +66,7 @@ ensureDir(config.get("temp"))
   .then(() =>
     getVideos(config.get("temp")).then(filenames => {
       console.log(
-        `Videos in ${config.get("temp")}`,
+        `Videos in ${chalk.yellow(config.get("temp"))}`,
         prettifyFileList(filenames)
       );
     })
@@ -72,6 +77,9 @@ ensureDir(config.get("temp"))
   // )
   // .then(files => Promise.all(files.map(f => getShowName(f))))
   // .then(showNames => createShowDictionary(showNames))
-  .then(msg => msg && console.log(`Output: ${JSON.stringify(msg, null, 4)}`))
+  .then(
+    msg =>
+      msg && console.log(chalk.red(`Output: ${JSON.stringify(msg, null, 4)}`))
+  )
   // .then(msg => console.log(`Output: ${msg}`))
-  .catch(err => console.error(err));
+  .catch(err => console.error(chalk.red(err)));
