@@ -1,4 +1,4 @@
-const fs = require("fs");
+const fs = require("fs-extra");
 const path = require("path");
 
 const config = require("config");
@@ -32,10 +32,18 @@ const walk = (directory, filter) =>
     _walk(directory, (err, results) => (err ? reject(err) : resolve(results)))
   ).then(results => (filter ? results.filter(filter) : results));
 
-// const isVideo = filename =>
-//   config.get("videoExtensions").some(ext => filename.endsWith(ext));
+const isVideo = filename =>
+  config.get("videoExtensions").some(ext => filename.endsWith(ext));
 
-// const checkTempExists = dir => fs.ensureDir(dir);
+const isIgnored = filename =>
+  config
+    .get("ignorePatterns")
+    .some(pattern => new RegExp(pattern, "i").test(filename));
+
+const ensureDir = dir =>
+  new Promise((resolve, reject) => {
+    fs.ensureDir(dir, err => (err ? reject(err) : resolve()));
+  });
 
 // const moveFilesTo = (destination, filenames) =>
 //   filenames.map(filename =>
@@ -100,5 +108,8 @@ const walk = (directory, filter) =>
 //   });
 
 module.exports = {
-  walk
+  walk,
+  ensureDir,
+  isVideo,
+  isIgnored
 };
