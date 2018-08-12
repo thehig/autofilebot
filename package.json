@@ -10,16 +10,17 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "config": "^2.0.1",
-    "recursive-readdir": "^2.2.1"
+    "config": "^2.0.1"
   },
   "devDependencies": {
-    "fs-extra": "^4.0.0",
-    "jest": "23.4.1",
-    "jest-cli": "23.4.1",
-    "mock-fs": "^4.5.0"
+    "jest": "^23.5.0",
+    "jest-cli": "^23.5.0",
+    "mock-fs": "^4.6.0"
   },
   "jest": {
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "testPathIgnorePatterns": [
+      "/config/"
+    ]
   }
 }

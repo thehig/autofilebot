@@ -1,25 +1,46 @@
+const fs = require("fs");
+const path = require("path");
+
 const config = require("config");
 const debug = config.get("debug");
 
-const fs = require("fs");
+const _walk = function(dir, done) {
+  var results = [];
+  fs.readdir(dir, function(err, list) {
+    if (err) return done(err);
+    var pending = list.length;
+    if (!pending) return done(null, results);
+    list.forEach(function(file) {
+      file = path.resolve(dir, file);
+      fs.stat(file, function(err, stat) {
+        if (stat && stat.isDirectory()) {
+          _walk(file, function(err, res) {
+            results = results.concat(res);
+            if (!--pending) done(null, results);
+          });
+        } else {
+          results.push(file);
+          if (!--pending) done(null, results);
+        }
+      });
+    });
+  });
+};
 
-// Traverse directory recursively
-// Perform file system ops (check dir exists, move files)
-// const fs = require("fs-extra");
-// Determine folder, extension, directory
-const path = require("path");
+const walk = directory =>
+  new Promise((resolve, reject) => {
+    _walk(directory, (err, results) => (err ? reject(err) : resolve(results)));
+  });
 
-const glob = require("glob");
+// const isVideo = filename =>
+//   config.get("videoExtensions").some(ext => filename.endsWith(ext));
 
-const isVideo = filename =>
-  config.get("videoExtensions").some(ext => filename.endsWith(ext));
+// const checkTempExists = dir => fs.ensureDir(dir);
 
-const checkTempExists = dir => fs.ensureDir(dir);
-
-const moveFilesTo = (destination, filenames) =>
-  filenames.map(filename =>
-    fs.move(filename, path.join(destination, path.basename(filename)))
-  );
+// const moveFilesTo = (destination, filenames) =>
+//   filenames.map(filename =>
+//     fs.move(filename, path.join(destination, path.basename(filename)))
+//   );
 
 // const recursiveWalk = directory =>
 //   new Promise((resolve, reject) => {
@@ -46,73 +67,38 @@ const moveFilesTo = (destination, filenames) =>
 //     reject();
 //   });
 
-const walk = function(dir, done) {
-  console.log('walk', dir);
-  var results = [];
-  fs.readdir(dir, function(err, list) {
-    if (err) return done(err);
-    console.log('list', list);
-    var pending = list.length;
-    if (!pending) return done(null, results);
-    list.forEach(function(file) {
-      file = path.resolve(dir, file);
-      fs.stat(file, function(err, stat) {
-        if (stat && stat.isDirectory()) {
-          walk(file, function(err, res) {
-            results = results.concat(res);
-            if (!--pending) done(null, results);
-          });
-        } else {
-          results.push(file);
-          if (!--pending) done(null, results);
-        }
-      });
-    });
-  });
-};
+// const recurseDirForVideos = directory =>
+//   new Promise((resolve, reject) => {
+//     if (debug) console.log(`Looking for files in ${directory}`);
+//     glob(`${directory}/**/*.*`, function(err, files) {
+//       if (err) reject(err);
+//       const videoFiles = files.filter(isVideo);
+//       if (debug) console.log(`Found ${videoFiles.length} video(s)`);
+//       resolve(videoFiles);
+//       // videoFiles.length == 0
+//       //   ? reject("No video files found")
+//       //   : resolve(videoFiles);
+//     });
+//   });
 
-const recursiveWalk = directory =>
-  new Promise((resolve, reject) => {
-    walk(directory, (err, results) => (err ? reject(err) : resolve(results)));
-  });
+// const appendToLog = (directory, log) =>
+//   new Promise((resolve, reject) => {
+//     const destination = path.join(directory, "autofilebot.js.log");
+//     const output = `
+// =======${new Date()}========
+// ${JSON.stringify(log)}
+// `;
+//     const options = { flag: "a", encoding: "utf8" };
 
-const recurseDirForVideos = directory =>
-  new Promise((resolve, reject) => {
-    if (debug) console.log(`Looking for files in ${directory}`);
-    glob(`${directory}/**/*.*`, function(err, files) {
-      if (err) reject(err);
-      const videoFiles = files.filter(isVideo);
-      if (debug) console.log(`Found ${videoFiles.length} video(s)`);
-      resolve(videoFiles);
-      // videoFiles.length == 0
-      //   ? reject("No video files found")
-      //   : resolve(videoFiles);
-    });
-  });
+//     if (debug)
+//       console.log(`
+// Appending logfile: ${destination}
+// ${output}
+// `);
 
-const appendToLog = (directory, log) =>
-  new Promise((resolve, reject) => {
-    const destination = path.join(directory, "autofilebot.js.log");
-    const output = `
-=======${new Date()}========
-${JSON.stringify(log)}
-`;
-    const options = { flag: "a", encoding: "utf8" };
-
-    if (debug)
-      console.log(`
-Appending logfile: ${destination}
-${output}
-`);
-
-    resolve(fs.writeFile(destination, output, options));
-  });
+//     resolve(fs.writeFile(destination, output, options));
+//   });
 
 module.exports = {
-  isVideo,
-  checkTempExists,
-  moveFilesTo,
-  recursiveWalk,
-  recurseDirForVideos,
-  appendToLog
+  walk
 };

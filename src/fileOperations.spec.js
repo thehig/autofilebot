@@ -1,24 +1,42 @@
-const { mock } = require("../spec/setup");
-const { recursiveWalk, recurseDirForVideos } = require("./fileOperations");
+console.log(""); // use log before requiring mockfs to prevent 'callsites' error
+const mock = require("mock-fs");
 
 const config = require("config");
-const fromDir = config.get("from").replace(/\\/g, "/"); //?
-const patterns = config.get("ignorePatterns"); //?
+const fromDir = config.get("from"); //?
 
-// recurseDirForVideos(config.get("from"), config.get("ignorePatterns"))
+const fileStructure = {
+  [fromDir]: {
+    // unprocessed video
+    "RARBG.mp4": "", // ignored
+    incomplete: {
+      // all ignored
+      "someFile.mp4": ""
+    },
+    complete: {
+      "someFile.mp4": "", // included
+      "someFile.sample.mp4": "", // ignored
+      "someFile sample.mp4": "", // ignored
+      "someFile SAMPLE.mp4": "", // ignored
+      "someFile Sample.mp4": "" // ignored
+    }
+  }
+};
+
+const { walk } = require("./fileOperations");
+
 describe("fileOperations", () => {
-  let mockInstance;
-  beforeAll(() => {
-    mockInstance = mock();
-    jest.setTimeout(30 * 1000);
-  });
-  afterAll(() => {
-    mockInstance.restore();
+
+  beforeEach(() => {
+    mock(fileStructure);
   });
 
-  describe("recursive walk", () => {
-    it(`${fromDir}`, done =>
-      recursiveWalk(`${fromDir}`)
+  afterEach(() => {
+    mock.restore();
+  });
+
+  describe("walk", () => {
+    it(`${fromDir} returns 7 files from mock fs`, done =>
+      walk(`${fromDir}`)
         .then(files => {
           expect(files.length).toBe(7);
           done();
@@ -26,33 +44,6 @@ describe("fileOperations", () => {
         .catch(err => done.fail(err))
       );
   });
-
-  // describe("mocks", () => {
-  //   it(`${fromDir}/*`, done =>
-  //     glob(`${fromDir}/*`, (err, files) => {
-  //       if (err) done(err);
-  //       expect(files.length).toBe(3);
-  //       done();
-  //     }));
-  //   it(`${fromDir}/complete/*`, done =>
-  //     glob(`${fromDir}/complete/*`, (err, files) => {
-  //       if (err) done(err);
-  //       expect(files.length).toBe(5);
-  //       done();
-  //     }));
-  //   it(`${fromDir}/incomplete/*`, done =>
-  //     glob(`${fromDir}/incomplete/*`, (err, files) => {
-  //       if (err) done(err);
-  //       expect(files.length).toBe(1);
-  //       done();
-  //     }));
-  //   it.only(`${fromDir}/**/*`, done =>
-  //     glob(`${fromDir}/**/`, (err, files) => {
-  //       if (err) done(err);
-  //       expect(files.length).toBe(7);
-  //       done();
-  //     }));
-  // });
 
   // describe("recurseDirForVideos", () => {
   //   it(`Scans ${fromDir} recursively`, () => {

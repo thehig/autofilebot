@@ -1,0 +1,8 @@
+{
+  "debug": true,
+  "showConfig": false,
+
+  "from": "C:/autofilebot/fixtures/from",
+  "to": "C:/autofilebot/fixtures/to",
+  "temp": "C:/autofilebot/fixtures/temp"
+}
