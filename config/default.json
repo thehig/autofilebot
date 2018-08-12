@@ -6,5 +6,6 @@
   "to": "D:/Sorted Torrents/TV/",
   "videoExtensions": ["mkv", "avi", "mp4"],
   "ignorePatterns": ["RARBG.mp4", "sample", "incomplete"],
-  "filebotCommand": "filebot -rename \"$PATTERN$\" --db TheTVDB -non-strict"
+  "filebotCommand": "filebot -rename \"$PATTERN$\" --db TheTVDB -non-strict",
+  "log": "autofilebot.log"
 }

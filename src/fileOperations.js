@@ -55,23 +55,21 @@ const moveFiles = (destination, filenames) =>
     )
   );
 
-// const appendToLog = (directory, log) =>
-//   new Promise((resolve, reject) => {
-//     const destination = path.join(directory, "autofilebot.js.log");
-//     const output = `
-// =======${new Date()}========
-// ${JSON.stringify(log)}
-// `;
-//     const options = { flag: "a", encoding: "utf8" };
+const appendToLog = (directory, filename, contents) =>
+  new Promise((resolve, reject) => {
+    const destination = path.join(directory, filename);
+    const output = `
+=======${new Date()}========
+${JSON.stringify(contents)}
+`;
+    if (debug)
+      console.log(`
+Appending logfile: ${destination}
+${output}
+`);
 
-//     if (debug)
-//       console.log(`
-// Appending logfile: ${destination}
-// ${output}
-// `);
-
-//     resolve(fs.writeFile(destination, output, options));
-//   });
+    resolve(fs.writeFile(destination, output, { flag: "a", encoding: "utf8" }));
+  });
 
 module.exports = {
   walk,
@@ -79,5 +77,6 @@ module.exports = {
   isVideo,
   isIgnored,
   getVideos,
-  moveFiles
+  moveFiles,
+  appendToLog
 };
