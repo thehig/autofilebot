@@ -1,13 +1,15 @@
 const config = require("config");
 const debug = config.get("debug");
 
+const fs = require("fs");
+
 // Traverse directory recursively
 // Perform file system ops (check dir exists, move files)
-const fs = require("fs-extra");
+// const fs = require("fs-extra");
 // Determine folder, extension, directory
 const path = require("path");
 
-const glob = require('glob');
+const glob = require("glob");
 
 const isVideo = filename =>
   config.get("videoExtensions").some(ext => filename.endsWith(ext));
@@ -19,7 +21,62 @@ const moveFilesTo = (destination, filenames) =>
     fs.move(filename, path.join(destination, path.basename(filename)))
   );
 
-const recurseDirForVideos = (directory) =>
+// const recursiveWalk = directory =>
+//   new Promise((resolve, reject) => {
+//     const fileList = [];
+//     fs.readdir(directory, (err, files) => {
+//       if (!files) return;
+
+//       files.map(file => {
+//         console.log(JSON.stringify(file));
+//         const fullName = `${directory}/${file}`;
+
+//         fs.lstatSync(fullName).isDirectory(); //?
+//         // console.log('stat', fullName, file);
+//         // fs.statSync(fullName); //?
+//         // console.log(fullName);
+//         // fs.stat(fullName, (err, thing) => {
+//         //   console.log("err, thing", err, thing);
+//         // });
+//         // if (fs.statSync(`${directory}/${file}`).isDirectory()) {
+//         //   console.log("directory:", file);
+//         // }
+//       });
+//     });
+//     reject();
+//   });
+
+const walk = function(dir, done) {
+  console.log('walk', dir);
+  var results = [];
+  fs.readdir(dir, function(err, list) {
+    if (err) return done(err);
+    console.log('list', list);
+    var pending = list.length;
+    if (!pending) return done(null, results);
+    list.forEach(function(file) {
+      file = path.resolve(dir, file);
+      fs.stat(file, function(err, stat) {
+        if (stat && stat.isDirectory()) {
+          walk(file, function(err, res) {
+            results = results.concat(res);
+            if (!--pending) done(null, results);
+          });
+        } else {
+          results.push(file);
+          if (!--pending) done(null, results);
+        }
+      });
+    });
+  });
+};
+
+const recursiveWalk = directory =>
+  new Promise((resolve, reject) => {
+    walk(directory, (err, results) => (err ? reject(err) : resolve(results)));
+  });
+
+const recurseDirForVideos = directory =>
   new Promise((resolve, reject) => {
     if (debug) console.log(`Looking for files in ${directory}`);
     glob(`${directory}/**/*.*`, function(err, files) {
@@ -55,6 +112,7 @@ module.exports = {
   isVideo,
   checkTempExists,
   moveFilesTo,
+  recursiveWalk,
   recurseDirForVideos,
   appendToLog
 };
