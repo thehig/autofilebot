@@ -1,7 +1,7 @@
 const chalk = require("chalk");
 const config = require("config");
 
-const exec = require("./exec");
+const { exec } = require("./exec");
 const {
   ensureDir,
   getVideos,
@@ -41,7 +41,7 @@ const getVideosInFromDir = () =>
   getVideos(fromDir).then(filenames => {
     if (!filenames.length) {
       // Handle no files
-      throw new Error("No files found");
+      throw new Error("No matching files found in " + fromDir);
     }
     return filenames;
   });
