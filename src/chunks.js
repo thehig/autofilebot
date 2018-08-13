@@ -58,20 +58,31 @@ const moveFilesFromFromDirToTempDir = filenames => {
   return ensureDir(tempDir).then(() => moveFiles(tempDir, filenames));
 };
 
+const cleanedAppendToLog = _log => {
+  const log = _log
+    .toString()
+    .replace(/\\/g, "/")
+    .replace(new RegExp(tempDir, "g"), "");
+  return appendToLog(tempDir, logFile, log);
+};
+
 // Run filebot on "temp/" and log the result
-const runFilebotOnTempDir = () =>
-  runFilebot(tempDir)
-    // Write success output to log
-    .then(log => appendToLog(tempDir, logFile, log.stdout))
-    // Write error output to log
-    .catch(log =>
-      appendToLog(tempDir, logFile, log.stderr).then(
-        // Rethrow the error
-        () => {
-          throw new Error(log.stderr);
-        }
+const runFilebotOnTempDir = () => {
+  return (
+    runFilebot(tempDir)
+      // Write success output to log
+      .then(log => cleanedAppendToLog(log.stdout))
+      // Write error output to log
+      .catch(log => log =>
+        cleanedAppendToLog(log.stderr).then(
+          // Rethrow the error
+          () => {
+            throw new Error(log.stderr);
+          }
+        )
       )
-    );
+  );
+};
 
 // Get renamed videos from "temp/"
 const getVideosInTempDir = () =>

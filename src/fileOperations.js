@@ -1,5 +1,6 @@
 const fs = require("fs-extra");
 const path = require("path");
+const chalk = require("chalk");
 
 const config = require("config");
 const debug = config.get("debug");
@@ -56,21 +57,19 @@ const moveFiles = (destination, filenames) =>
   );
 
 const appendToLog = (directory, filename, contents) =>
-  new Promise(resolve => {
-    const destination = path.join(directory, filename);
-    const output = `
-=======${new Date()}========
-${JSON.stringify(contents)}
-`;
-    if (debug)
-      console.log(`
-Appending logfile: "${destination}"
-"""
-${output}
-"""
-`);
+  new Promise((resolve, reject) => {
+    if (!contents) return reject('Unable to append empty contents to log');
 
-    resolve(fs.writeFile(destination, output, { flag: "a", encoding: "utf8" }));
+    const destination = path.join(directory, filename);
+      
+    let output = `
+=======${new Date()}========
+
+${contents}
+
+`;
+    if(debug) console.log(chalk.blue("[fileOperations][appendToLog]"), output);
+    return resolve(fs.writeFile(destination, output, { flag: "a", encoding: "utf8" }));
   });
 
 module.exports = {
