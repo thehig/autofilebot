@@ -1,0 +1,11 @@
+{
+  "debug": true,
+  "showConfig": false,
+  "from": "D:/Unsorted Torrents/2017-torrents/",
+  "temp": "D:/Sorted Torrents/temp",
+  "to": "D:/Sorted Torrents/TV/",
+  "videoExtensions": ["mkv", "avi", "mp4"],
+  "ignorePatterns": ["RARBG.mp4", "sample", "incomplete"],
+  "filebotCommand": "filebot -rename \"$DIRECTORY$\" --db TheTVDB -non-strict",
+  "log": "autofilebot.log"
+}
