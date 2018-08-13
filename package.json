@@ -4,7 +4,7 @@
   "description": "",
   "main": "autoFilebot.js",
   "scripts": {
-    "start": "node src/index.js",
+    "start": "cross-env NODE_ENV=production node src/index.js",
     "test": "jest"
   },
   "author": "",
@@ -12,6 +12,7 @@
   "dependencies": {
     "chalk": "^2.4.1",
     "config": "^2.0.1",
+    "cross-env": "^5.2.0",
     "fs-extra": "^7.0.0"
   },
   "devDependencies": {

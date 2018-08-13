@@ -7,6 +7,8 @@ const debug = config.get("debug");
 
 const ensureDir = dir =>
   new Promise((resolve, reject) => {
+    if (debug)
+      console.log(chalk.blue("[fileOperations][ensureDir]"), chalk.yellow(dir));
     fs.ensureDir(dir, err => (err ? reject(err) : resolve()));
   });
 
@@ -36,7 +38,18 @@ const _walk = function(dir, done) {
 const walk = (directory, filter) =>
   new Promise((resolve, reject) =>
     _walk(directory, (err, results) => (err ? reject(err) : resolve(results)))
-  ).then(results => (filter ? results.filter(filter) : results));
+  )
+    .then(results => (filter ? results.filter(filter) : results))
+    .then(results => {
+      if (debug)
+        console.log(
+          chalk.blue("[fileOperations][walk]"),
+          chalk.yellow(directory),
+          "\n",
+          results
+        );
+      return results;
+    });
 
 const isVideo = filename =>
   config.get("videoExtensions").some(ext => filename.endsWith(ext));
@@ -52,24 +65,36 @@ const getVideos = directory =>
 const moveFiles = (destination, filenames) =>
   Promise.all(
     filenames.map(filename =>
-      fs.move(filename, path.join(destination, path.basename(filename)))
+      fs
+        .move(filename, path.join(destination, path.basename(filename)))
+        .catch(err => {
+          // Add relevant information to the outgoing error
+          throw new Error(`${err} source: ${filename} dest: ${path.join(destination, path.basename(filename))})`);
+        })
     )
   );
 
 const appendToLog = (directory, filename, contents) =>
   new Promise((resolve, reject) => {
-    if (!contents) return reject('Unable to append empty contents to log');
+    if (!contents) return reject("Unable to append empty contents to log");
 
     const destination = path.join(directory, filename);
-      
+
     let output = `
 =======${new Date()}========
 
 ${contents}
 
 `;
-    if(debug) console.log(chalk.blue("[fileOperations][appendToLog]"), output);
-    return resolve(fs.writeFile(destination, output, { flag: "a", encoding: "utf8" }));
+    if (debug)
+      console.log(
+        chalk.blue("[fileOperations][appendToLog]"),
+        chalk.yellow(destination),
+        output
+      );
+    return resolve(
+      fs.writeFile(destination, output, { flag: "a", encoding: "utf8" })
+    );
   });
 
 module.exports = {
