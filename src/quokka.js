@@ -1,9 +1,11 @@
 console.log("quokka");
-const id = require("./identifier");
+const config = require("config");
+const { identifyFilename, transformFileName } = require("./identifier");
+const { walk } = require("./fileOperations");
+const walkPath = config.get("to"); //?
 
 // #region Mock FS
 // const { walk } = require("./fileOperations");
-// const config = require("config");
 // const directory = config.get("to"); //?
 
 // const mock = require("mock-fs");
@@ -21,46 +23,56 @@ const id = require("./identifier");
 
 // #endregion
 
-const dataSubset = require("./quokka_data"); //.slice(1, 10);
+const buildDictionary = filenames => {
+  const dictionary = {};
 
-const dictionary = {};
+  filenames.map(filename => {
+    const [show, episode] = identifyFilename(filename);
+    if (!dictionary[show]) {
+      dictionary[show] = [episode];
+    } else {
+      dictionary[show].push(episode);
+    }
+  });
 
-dataSubset.map(filename => {
-  // Almost Human\Almost Human - 1x02 - Skin.mkv
-  const [showName, ...episodes] = filename.split("\\");
-  
-  // Avoid any nested folders and just get the episode name
-  const episode = episodes.pop();
-  if(episodes.length) {
-    // Nested Folders. Don't need to do anything now, but might be an issue in the future
-    console.warn('Nested folder', episodes);
-  }
+  return dictionary;
+};
 
-  // Build a dictionary of { show: [ episode, episode, ... ] }
-  if (!dictionary[showName]) {
-    dictionary[showName] = [episode];
-  } else {
-    dictionary[showName].push(episode);
-  }
-});
+const episodeCount = dict =>
+  Object.keys(dict).map(show => [show, dict[show].length]);
 
-const episodeCount = Object.keys(dictionary).map(showName => [
-  showName,
-  dictionary[showName].length
-]);
+const errorCheck = dictionary => {
+  let issues = [];
+  for (let show in dictionary) {
+    // console.log(show);
+    const episodes = dictionary[show];
 
-for(let show in dictionary) {
-  // console.log(show);
-  const episodes = dictionary[show];
-
-  for(let episode of episodes) {
-    // console.log(episode);
-    const showNameFromEpisode = id(episode);
-    if(showNameFromEpisode.toLowerCase() !== show.toLowerCase()) {
-      const issue = `${show} !== ${showNameFromEpisode}`;
-      console.log(issue);
-      break;
-      // throw new Error(issue)
+    for (let episode of episodes) {
+      // console.log(episode);
+      const showNameFromEpisode = transformFileName(episode);
+      if (showNameFromEpisode.toLowerCase() !== show.toLowerCase()) {
+        const issue = `${show} !== ${showNameFromEpisode}`;
+        issues.push(issue);
+        break;
+      }
     }
   }
-}
+  return issues;
+};
+
+const fileFilter = filename => filename.indexOf("desktop.ini") === -1;
+
+walk(walkPath, fileFilter)
+  .then(files => files.map(file => file.substring(walkPath.length)))
+  .then(files => {
+    return buildDictionary(files); //?
+  })
+  // .then(dictionary => {
+  //   console.log("Episode Count", episodeCount(dictionary));
+  //   return dictionary;
+  // })
+  .then(dictionary => {
+    console.log("Errors", errorCheck(dictionary));
+    return dictionary;
+  });
+// buildDictionary(require("./quokka_data")); //?
