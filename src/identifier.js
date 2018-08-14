@@ -1,3 +1,4 @@
+const path = require("path");
 
 const transformers = [
   // === Standard Character Replace/Removal ===
@@ -7,39 +8,47 @@ const transformers = [
   f => (f.indexOf("(") > -1 ? f.substring(0, f.indexOf("(") - 1) : f), // Remove the year
 
   // === Special Cases ===
-  
+
   // Archer
-  f => f.replace(/Archer/g, "Archer (2009)"),  
+  f => f.replace(/Archer/g, "Archer (2009)"),
   // Doctor Who
-  f => f.replace(/Doctor/g, "Dr"),  
+  f => f.replace(/Doctor/g, "Dr"),
   // Planet Earth 2
-  f => f.replace(/II/g, "2"),  
+  f => f.replace(/II/g, "2"),
   // Last Week Tonight
-  f => f.replace(/ with John Oliver/g, ""),  
+  f => f.replace(/ with John Oliver/g, ""),
   // The Marvelous Mrs. Maisel
-  f => f.replace(/\bMrs\b/g, "Mrs."),
+  f => f.replace(/\bMrs\b/g, "Mrs.")
 ];
 
-const transformFileName = filename =>
+const cleanShowName = filename =>
   transformers.reduce(
     (prev, next) => next(prev), // Call each transformer in order
-    filename.split(" - ")[0].trim() // Starting with the first part of the split filename
+    filename
   );
 
-const identifyFilename = filename => {
-  const [showName, ...episodes] = filename.split("\\");
+module.exports = filepath => {
+  // Split the file path at the path separators
+  const pathChunks = filepath.split(path.sep);
+  // The last one is the file
+  const filename = pathChunks.pop();
+  // The next one is the folder containing the file
+  const parent = pathChunks.pop();
+  // And we stitch the unused stuff back together
+  const unprocessed = pathChunks.join(path.sep);
+  
+  // Split the filename into its component parts
+  const [show, ep, title, ...otherBits] = filename.split(" - ");
+  if(otherBits.length) throw new Error(`Unknown file elements: [${otherBits}] in ${filepath}`);
+  return {
+    show: cleanShowName(show),  // Clean up the show name
+    ep,
+    title,
 
-  // Avoid any nested folders and just get the episode name
-  const episode = episodes.pop();
-  if (episodes.length) {
-    // Nested Folders. Don't need to do anything now, but might be an issue in the future
-    console.warn("Nested folder", episodes);
-  }
-
-  return [showName, episode];
-}
-
-module.exports = {
-  identifyFilename,
-  transformFileName
+    path: {
+      filepath,
+      parent,
+      unprocessed
+    }
+  };
 };

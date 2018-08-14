@@ -1,37 +1,18 @@
-console.log("quokka");
-const config = require("config");
-const { identifyFilename, transformFileName } = require("./identifier");
+const walkPath = require("config").get("to");
+
+const id = require("./identifier");
 const { walk } = require("./fileOperations");
-const walkPath = config.get("to"); //?
 
-// #region Mock FS
-// const { walk } = require("./fileOperations");
-// const directory = config.get("to"); //?
-
-// const mock = require("mock-fs");
-// const fileStructure = {
-//   [fromDir]: {
-//     incomplete: {
-//       // all ignored
-//       "someFile.mp4": ""
-//     }
-//   }
-// };
-
-// mock(fileStructure);
-// mock.restore();
-
-// #endregion
-
-const buildDictionary = filenames => {
+const buildDictionary = filepaths => {
   const dictionary = {};
 
-  filenames.map(filename => {
-    const [show, episode] = identifyFilename(filename);
+  filepaths.map(filepath => {
+    const details = id(filepath);
+    const { show } = details;
     if (!dictionary[show]) {
-      dictionary[show] = [episode];
+      dictionary[show] = [details];
     } else {
-      dictionary[show].push(episode);
+      dictionary[show].push(details);
     }
   });
 
@@ -44,35 +25,42 @@ const episodeCount = dict =>
 const errorCheck = dictionary => {
   let issues = [];
   for (let show in dictionary) {
-    // console.log(show);
     const episodes = dictionary[show];
 
     for (let episode of episodes) {
-      // console.log(episode);
-      const showNameFromEpisode = transformFileName(episode);
-      if (showNameFromEpisode.toLowerCase() !== show.toLowerCase()) {
-        const issue = `${show} !== ${showNameFromEpisode}`;
-        issues.push(issue);
-        break;
-      }
+      // Destructure the episode that was returned from the identifier
+      const {
+        show,
+        ep,
+        title,
+        path: { parent, filepath, unprocessed }
+      } = episode;
+      const errors = {
+        filepath,
+        issues: []
+      };
+
+      // Check for missing elements
+      !show && errors.issues.push(`Missing show`);
+      !ep && errors.issues.push(`Missing ep`);
+      !title && errors.issues.push(`Missing title`);
+
+      // Check for unprocessed folders
+      //   (Converts "\" into "/", and appends "/")
+      if (unprocessed.replace(/\\/g, "/") + "/" !== walkPath)
+        errors.issues.push(`Unprocessed folders`);
+
+      // Show the difference between the folder name, and the show name in the episode title
+      // if(parent !== show) console.warn("parent !== show", parent, show);
+
+      if (errors.issues.length) issues.push(errors);
     }
   }
   return issues;
 };
 
-const fileFilter = filename => filename.indexOf("desktop.ini") === -1;
+const fileFilter = filepath => filepath.indexOf("desktop.ini") === -1;
 
 walk(walkPath, fileFilter)
-  .then(files => files.map(file => file.substring(walkPath.length)))
-  .then(files => {
-    return buildDictionary(files); //?
-  })
-  // .then(dictionary => {
-  //   console.log("Episode Count", episodeCount(dictionary));
-  //   return dictionary;
-  // })
-  .then(dictionary => {
-    console.log("Errors", errorCheck(dictionary));
-    return dictionary;
-  });
-// buildDictionary(require("./quokka_data")); //?
+  .then(buildDictionary)
+  .then(errorCheck); //?
