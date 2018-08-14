@@ -9,6 +9,9 @@ const id = require("./identifier");
 //   "Suits - 8x04 - Revenue Per Square Foot.mkv"
 // ];
 
+// Edge Case in file.split:
+// [Strange Pilot.mkv] in D:\Sorted Torrents\TV\Archer (2009)\Archer (2009) - 9x01 - Danger Island - Strange Pilot.mkv​​
+
 // describe("identifier", () => {
 //   describe("specific show", () => {
 //     it("Elementary", () => {
