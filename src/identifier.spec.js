@@ -1,34 +1,37 @@
 const id = require("./identifier");
 
-describe('identifier', () => {
-  /*
-    it takes a filepath as a parameter
-      it takes the last element as the file
-      it takes the second last element as the parent
-      it takes the remaining elements as unprocessed
+const nyi = done => done.fail('Not Yet Implemented');
 
-    it splits the file name
-      it splits the name into 'Show', 'Ep' and 'Title'
-      it can handle additional split characters without error
-        // [Strange Pilot.mkv] in D:\Sorted Torrents\TV\Archer (2009)\Archer (2009) - 9x01 - Danger Island - Strange Pilot.mkv​​
+describe("identifier", () => {
+  describe("takes a filepath as a parameter", () => {
+    it("takes the last element as the file", nyi);
+    it("takes the second last element as the parent", nyi);
+    it("takes the remaining elements as unprocessed", nyi);
+  });
 
-      
-    it errors if
-      a file name does not match this 'pattern' of `Show - Ep - Title`
-      show, ep or title is empty
-      unprocessed bits contains anything
+  describe("splits the file name", () => {
+    it("splits the name into 'Show', 'Ep' and 'Title'", nyi);
+    it("can handle additional split characters without error", nyi);
+    // [Strange Pilot.mkv] in D:\Sorted Torrents\TV\Archer (2009)\Archer (2009) - 9x01 - Danger Island - Strange Pilot.mkv​​
+  });
 
-    it cleans the show name
-      it replaces special characters with a space
-      it replaces special characters with nothing
-      it removes the year (if present)
+  describe("errors if", () => {
+    it("a file name does not match this 'pattern' of `Show - Ep - Title`", nyi);
+    it("show, ep or title is empty", nyi);
+    it("unprocessed bits contains anything", nyi);
+  });
 
-    it handles special case names
-      it handles Archer (Year needed for Kodi)
-      it handles Doctor Who
-      it handles Planet Earth
-      it handles Last Week Tonight
-      it handles Marvelous Mrs. Maisel
+  describe("cleans the show name", () => {
+    it("replaces special characters with a space", nyi);
+    it("replaces special characters with nothing", nyi);
+    it("removes the year (if present)", nyi);
+  });
 
-  */
+  describe("handles special case names", () => {
+    it("handles Archer (Year needed for Kodi)", nyi);
+    it("handles Doctor Who", nyi);
+    it("handles Planet Earth", nyi);
+    it("handles Last Week Tonight", nyi);
+    it("handles Marvelous Mrs. Maisel", nyi);
+  });
 });

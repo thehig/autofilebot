@@ -1,6 +1,6 @@
 const { resolveSubstitutions, exec } = require("./exec");
 
-describe.only("exec", () => {
+describe("exec", () => {
   describe("resolveSubstitutions", () => {
     describe("returns the input if", () => {
       it("no substutions are provided", () => {
