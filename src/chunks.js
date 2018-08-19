@@ -9,6 +9,8 @@ const {
   appendToLog
 } = require("./fileOperations");
 
+const postProcess = require("./postProcessing");
+
 // #region Config
 
 const debug = config.get("debug");
@@ -93,9 +95,14 @@ const getVideosInTempDir = () =>
     );
   });
 
+const moveFilesFromTempDirToToDir = () => {
+  return postProcess(tempDir, toDir);
+};
+
 module.exports = {
   getVideosInFromDir,
   moveFilesFromFromDirToTempDir,
   runFilebotOnTempDir,
-  getVideosInTempDir
+  getVideosInTempDir,
+  moveFilesFromTempDirToToDir
 };

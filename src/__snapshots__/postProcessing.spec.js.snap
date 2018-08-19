@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`postProcessing moves multiple files from temp to existing and non-existing destinations 1`] = `
+Array [
+  "C:\\\\autofilebot\\\\fixtures\\\\to\\\\Archer (2009)\\\\Archer (2009) - 8x02 - Archer Dreamland Berenice.mkv",
+  "C:\\\\autofilebot\\\\fixtures\\\\to\\\\Archer (2009)\\\\Archer (2009) - 8x03 - Jane Doe.mkv",
+  "C:\\\\autofilebot\\\\fixtures\\\\to\\\\Dr Who\\\\Doctor Who (2005) - 10x02 - Smile.mkv",
+  "C:\\\\autofilebot\\\\fixtures\\\\to\\\\Dr Who\\\\Doctor Who (2005) - 8x04 - Listen.mkv",
+  "C:\\\\autofilebot\\\\fixtures\\\\to\\\\Last Week Tonight\\\\Last Week Tonight with John Oliver - 1x11 - Episode 11.mp4",
+  "C:\\\\autofilebot\\\\fixtures\\\\to\\\\Last Week Tonight\\\\Last Week Tonight with John Oliver - 1x16 - Episode 16.mp4",
+  "C:\\\\autofilebot\\\\fixtures\\\\to\\\\Marvels Agents of Shield\\\\Marvel's Agents of S.H.I.E.L.D. - 2x01 - Shadows.mkv",
+  "C:\\\\autofilebot\\\\fixtures\\\\to\\\\Marvels Agents of Shield\\\\Marvel's Agents of S.H.I.E.L.D. - 5x21 - The Force of Gravity.mkv",
+  "C:\\\\autofilebot\\\\fixtures\\\\to\\\\Planet Earth 2\\\\Planet Earth II - 1x02 - Mountains.mkv",
+  "C:\\\\autofilebot\\\\fixtures\\\\to\\\\Planet Earth 2\\\\Planet Earth II - 1x03 - Jungles.mkv",
+  "C:\\\\autofilebot\\\\fixtures\\\\to\\\\The Marvelous Mrs. Maisel\\\\The Marvelous Mrs. Maisel - 1x05 - Doink.mkv",
+]
+`;

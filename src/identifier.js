@@ -18,7 +18,9 @@ const transformers = [
   // Last Week Tonight
   f => f.replace(/ with John Oliver/g, ""),
   // The Marvelous Mrs. Maisel
-  f => f.replace(/\bMrs\b/g, "Mrs.")
+  f => f.replace(/\bMrs\b/g, "Mrs."),
+  // Shield
+  f => f.replace(/\bSHIELD\b/g, "Shield")
 ];
 
 const cleanShowName = filename =>
