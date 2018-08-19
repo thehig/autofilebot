@@ -33,23 +33,30 @@ ${JSON.stringify(config.util.getConfigSources(), null, 4)}
 
 // #endregion
 
+const cleanedAppendToLog = (...params) => {
+  // Replace the tempDir in output with '.'
+  //    Done twice to account for either \ or / in the 'output' body
+  const backslashDir = new RegExp(tempDir.replace(/\//g, "\\"), "g");
+  const forwardslashDir = new RegExp(tempDir.replace(/\\/g, "/"), "g");
 
-const cleanedAppendToLog = _log => {
-  const log = _log
-    .toString()
-    .replace(/\\/g, "/")
-    .replace(new RegExp(tempDir, "g"), "..");
-  return appendToLog(tempDir, logFile, log);
+  return appendToLog(
+    tempDir,
+    logFile,
+    params
+      .map(p => (typeof p === "object" ? JSON.stringify(p) : p.toString()))
+      .join("\n")
+      .replace(backslashDir, ".")
+      .replace(forwardslashDir, ".")
+  );
 };
 
-const execAndLog = (
-  ...params // Write success output to log
-) =>
+// Write success output to log
+const execAndLog = (...params) =>
   exec(...params)
-    .then(log => cleanedAppendToLog(log.stdout))
+    .then(log => cleanedAppendToLog("OK", ...params, log.stdout))
     // Write error output to log
     .catch(log =>
-      cleanedAppendToLog(log.stderr).then(
+      cleanedAppendToLog("ERROR", ...params, log.stderr).then(
         // Rethrow the error
         () => {
           throw new Error(log.stderr);

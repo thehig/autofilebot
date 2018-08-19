@@ -33,7 +33,7 @@ const postProcess = (fromDir, toDir) =>
         )
       )
       .then(promises => Promise.all(promises))
-      .then(resolve);
+      .then(() => resolve());
   });
 
 module.exports = postProcess;
