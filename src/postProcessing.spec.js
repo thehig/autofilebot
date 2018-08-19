@@ -9,7 +9,7 @@ const toDir = config.get("to"); //?
 const { walk } = require("./fileOperations");
 const postProcess = require("./postProcessing");
 
-describe.only("postProcessing", () => {
+describe("postProcessing", () => {
   // beforeEach(() => {
   //   mock(fileStructure);
   // });
@@ -106,6 +106,8 @@ describe.only("postProcessing", () => {
   it("moves multiple files from temp to existing and non-existing destinations", () => {
     mock({
       [tempDir]: {
+        "desktop.ini": "",
+        "autofilebot.log": "",
         "Archer (2009) - 8x03 - Jane Doe.mkv": "",
         "Doctor Who (2005) - 8x04 - Listen.mkv": "",
         "Planet Earth II - 1x02 - Mountains.mkv": "",
@@ -133,13 +135,13 @@ describe.only("postProcessing", () => {
 
     const before = () =>
       walk(tempDir)
-        .then(f => expect(f).toHaveLength(6))
+        .then(f => expect(f).toHaveLength(8))
         .then(() => walk(toDir))
         .then(f => expect(f).toHaveLength(5));
 
     const after = () =>
       walk(tempDir)
-        .then(f => expect(f).toHaveLength(0))
+        .then(f => expect(f).toHaveLength(2))
         .then(() => walk(toDir))
         .then(f => {
           expect(fs.readdirSync(toDir)).toHaveLength(6);

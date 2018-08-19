@@ -4,7 +4,7 @@ const fs = require("fs-extra");
 const debug = require("config").get("debug");
 const chalk = require("chalk");
 
-const { walk, ensureDir } = require("./fileOperations");
+const { getVideos, ensureDir } = require("./fileOperations");
 const id = require("./identifier");
 
 const postProcess = (fromDir, toDir) =>
@@ -12,7 +12,7 @@ const postProcess = (fromDir, toDir) =>
     if (!fromDir || !toDir)
       return reject(new Error("Required parameter is missing"));
 
-    return walk(fromDir)
+    return getVideos(fromDir)
       .then(files => files.map(id))
       .then(files =>
         files.map(({ show, path: { filepath } }) =>
