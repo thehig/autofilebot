@@ -4,7 +4,7 @@ const {
   getVideosInFromDir,
   moveFilesFromFromDirToTempDir,
   runFilebotOnTempDir,
-  getVideosInTempDir,
+  takeOwnershipOfTempDir,
   moveFilesFromTempDirToToDir
 } = require("./chunks");
 
@@ -12,11 +12,13 @@ const defaultTask = () =>
   getVideosInFromDir()
     .then(moveFilesFromFromDirToTempDir)
     .then(runFilebotOnTempDir)
+    .then(takeOwnershipOfTempDir)
     .then(moveFilesFromTempDirToToDir);
 
 const repairTask = () =>
   getVideosInTempDir()
     .then(runFilebotOnTempDir)
+    .then(takeOwnershipOfTempDir)
     .then(getVideosInTempDir);
 
 const task = defaultTask;

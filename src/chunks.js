@@ -22,6 +22,7 @@ const toDir = config.get("to");
 const logFile = config.get("log");
 
 const filebotCommand = config.get("filebotCommand");
+const takeOwnershipCommand = config.get("takeOwnershipCommand");
 
 if (showConfig)
   console.log(`
@@ -32,7 +33,35 @@ ${JSON.stringify(config.util.getConfigSources(), null, 4)}
 
 // #endregion
 
-const runFilebot = directory => exec(filebotCommand, { directory });
+
+const cleanedAppendToLog = _log => {
+  const log = _log
+    .toString()
+    .replace(/\\/g, "/")
+    .replace(new RegExp(tempDir, "g"), "..");
+  return appendToLog(tempDir, logFile, log);
+};
+
+const execAndLog = (
+  ...params // Write success output to log
+) =>
+  exec(...params)
+    .then(log => cleanedAppendToLog(log.stdout))
+    // Write error output to log
+    .catch(log =>
+      cleanedAppendToLog(log.stderr).then(
+        // Rethrow the error
+        () => {
+          throw new Error(log.stderr);
+        }
+      )
+    );
+
+const runFilebot = directory => execAndLog(filebotCommand, { directory });
+const takeOwnership = directory =>
+  execAndLog(takeOwnershipCommand, {
+    directory: directory.replace(/\//g, "\\")
+  });
 
 const prettifyFileList = filenames =>
   filenames
@@ -60,40 +89,10 @@ const moveFilesFromFromDirToTempDir = filenames => {
   return ensureDir(tempDir).then(() => moveFiles(tempDir, filenames));
 };
 
-const cleanedAppendToLog = _log => {
-  const log = _log
-    .toString()
-    .replace(/\\/g, "/")
-    .replace(new RegExp(tempDir, "g"), "");
-  return appendToLog(tempDir, logFile, log);
-};
 
 // Run filebot on "temp/" and log the result
-const runFilebotOnTempDir = () => {
-  return (
-    runFilebot(tempDir)
-      // Write success output to log
-      .then(log => cleanedAppendToLog(log.stdout))
-      // Write error output to log
-      .catch(log => log =>
-        cleanedAppendToLog(log.stderr).then(
-          // Rethrow the error
-          () => {
-            throw new Error(log.stderr);
-          }
-        )
-      )
-  );
-};
-
-// Get renamed videos from "temp/"
-const getVideosInTempDir = () =>
-  getVideos(tempDir).then(filenames => {
-    console.log(
-      `Videos in ${chalk.yellow(tempDir)}`,
-      prettifyFileList(filenames)
-    );
-  });
+const runFilebotOnTempDir = () => runFilebot(tempDir);
+const takeOwnershipOfTempDir = () => takeOwnership(tempDir);
 
 const moveFilesFromTempDirToToDir = () => {
   return postProcess(tempDir, toDir);
@@ -103,6 +102,6 @@ module.exports = {
   getVideosInFromDir,
   moveFilesFromFromDirToTempDir,
   runFilebotOnTempDir,
-  getVideosInTempDir,
+  takeOwnershipOfTempDir,
   moveFilesFromTempDirToToDir
 };
