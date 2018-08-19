@@ -1,5 +1,5 @@
 {
-  "debug": true,
+  "debug": false,
   "showConfig": false,
 
   "from": "C:/autofilebot/fixtures/from",
