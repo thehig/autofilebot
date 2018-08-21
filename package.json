@@ -4,7 +4,8 @@
   "description": "",
   "main": "autoFilebot.js",
   "scripts": {
-    "start": "cross-env NODE_ENV=production node src/index.js",
+    "start": "cross-env NODE_ENV=production node src/scripts/default.js",
+    "repair": "cross-env NODE_ENV=production node src/scripts/repair.js",
     "test": "jest"
   },
   "author": "",
