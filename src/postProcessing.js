@@ -21,14 +21,20 @@ const postProcess = (fromDir, toDir) =>
             if (debug) {
               console.log(
                 chalk.blue("[postProcessing]"),
-                "Moving",
+                chalk.green("[Move]"),
                 chalk.yellow(filepath),
                 "to",
                 chalk.yellow(destination)
               );
             }
 
-            return fs.move(filepath, destination);
+            return fs.move(filepath, destination).catch(err => {
+              console.log(
+                chalk.blue("[postProcessing]"),
+                chalk.red(`[error: ${err.message}]`),
+                chalk.yellow(path.basename(filepath))
+              );
+            });
           })
         )
       )
