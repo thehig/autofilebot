@@ -8,14 +8,31 @@ const {
   moveFilesFromTempDirToToDir
 } = require("../chunks");
 
-const defaultTask = () =>
-  getVideosInFromDir()
-    .then(moveFilesFromFromDirToTempDir)
-    .then(runFilebotOnTempDir)
-    .then(takeOwnershipOfTempDir);
-    // .then(moveFilesFromTempDirToToDir);
+/**
+ * Get all the videos and put them in the temp dir
+ */
+const gather = () => getVideosInFromDir().then(moveFilesFromFromDirToTempDir);
 
-const task = defaultTask;
+/**
+ * Assume all files in temp dir are TV, filebot and take ownership
+ */
+const filebot = () => runFilebotOnTempDir().then(takeOwnershipOfTempDir);
+
+/**
+ * Assume all files in temp dir are TV, move them to destination dir subfolders
+ */
+const putVideos = () => moveFilesFromTempDirToToDir();
+
+/**
+ * Do all of the above
+ */
+const doItAll = () => gather().then(filebot).then(putVideos);
+
+
+/**
+ * ACTUAL TASK THAT GETS INVOKED
+ */
+const task = doItAll;
 
 task()
   .then(
