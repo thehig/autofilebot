@@ -10,6 +10,10 @@
     "debug-repair": "cross-env NODE_ENV=production node --inspect-brk=9229 src/scripts/repair.js",
     "test": "jest"
   },
+  "bin": {
+    "autofilebot": "./bin/autofilebot.js",
+    "autofilebot_repair": "./bin/autofilebot_repair.js"
+  },
   "author": "",
   "license": "ISC",
   "dependencies": {

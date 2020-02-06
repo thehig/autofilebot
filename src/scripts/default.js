@@ -26,8 +26,10 @@ const putVideos = () => moveFilesFromTempDirToToDir();
 /**
  * Do all of the above
  */
-const doItAll = () => gather().then(filebot).then(putVideos);
-
+const doItAll = () =>
+  gather()
+    .then(filebot)
+    .then(putVideos);
 
 /**
  * ACTUAL TASK THAT GETS INVOKED
