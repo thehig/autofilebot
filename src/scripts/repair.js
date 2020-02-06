@@ -10,7 +10,7 @@ const {
 
 const repairTask = () =>
   runFilebotOnTempDir()
-    .then(takeOwnershipOfTempDir)
+    // .then(takeOwnershipOfTempDir)
     .then(moveFilesFromTempDirToToDir);
 
 const task = repairTask;
