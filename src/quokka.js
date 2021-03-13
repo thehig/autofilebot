@@ -1,3 +1,4 @@
+// @ts-nocheck
 const walkPath = require("config").get("to");
 
 const id = require("./identifier");
