@@ -13,17 +13,17 @@ const fileStructure = {
     "RARBG.mp4": "", // ignored
     incomplete: {
       // all ignored
-      "someFile.mp4": ""
+      "someFile.mp4": "",
     },
     complete: {
       "someFile.mp4": "", // included
       "someFile.sample.mp4": "", // ignored
       "someFile sample.mp4": "", // ignored
       "someFile SAMPLE.mp4": "", // ignored
-      "someFile Sample.mp4": "" // ignored
+      "someFile Sample.mp4": "", // ignored
     },
-    "autofilebot.log": "...some previous logs..."
-  }
+    "autofilebot.log": "...some previous logs...",
+  },
 };
 
 const {
@@ -33,8 +33,8 @@ const {
   isIgnored,
   getVideos,
   moveFiles,
-  appendToLog
-} = require("./fileOperations");
+  appendToLog,
+} = require("./");
 
 describe("fileOperations", () => {
   beforeEach(() => {
@@ -46,33 +46,33 @@ describe("fileOperations", () => {
   });
 
   describe("walk", () => {
-    it(`${fromDir} returns 8 files from mock fs`, done =>
+    it(`${fromDir} returns 8 files from mock fs`, (done) =>
       walk(`${fromDir}`)
-        .then(files => {
+        .then((files) => {
           expect(files.length).toBe(8);
           done();
         })
-        .catch(err => done.fail(err)));
-    it(`takes an array filter fn (1)`, done =>
-      walk(`${fromDir}`, file => file.indexOf("RARBG") === -1)
-        .then(files => {
+        .catch((err) => done.fail(err)));
+    it(`takes an array filter fn (1)`, (done) =>
+      walk(`${fromDir}`, (file) => file.indexOf("RARBG") === -1)
+        .then((files) => {
           expect(files.length).toBe(7);
           done();
         })
-        .catch(err => done.fail(err)));
-    it(`takes an array filter fn (2)`, done =>
-      walk(`${fromDir}`, file => file.indexOf("someFile") === -1)
-        .then(files => {
+        .catch((err) => done.fail(err)));
+    it(`takes an array filter fn (2)`, (done) =>
+      walk(`${fromDir}`, (file) => file.indexOf("someFile") === -1)
+        .then((files) => {
           expect(files.length).toBe(2);
           done();
         })
-        .catch(err => done.fail(err)));
-    it("catches a broken filter", done =>
+        .catch((err) => done.fail(err)));
+    it("catches a broken filter", (done) =>
       walk(`${fromDir}`, () => {
         throw new Error("should catch");
       })
         .then(() => done.fail("Should have thrown"))
-        .catch(err => {
+        .catch((err) => {
           expect(err.message).toContain("should catch");
           done();
         }));
@@ -113,17 +113,17 @@ describe("fileOperations", () => {
   });
 
   describe("getVideos", () => {
-    it("gets the 1 matching video", done =>
+    it("gets the 1 matching video", (done) =>
       getVideos(fromDir)
-        .then(videos => {
+        .then((videos) => {
           expect(videos.length).toBe(1);
           done();
         })
-        .catch(err => done.fail(err)));
+        .catch((err) => done.fail(err)));
   });
 
   describe("ensureDir", () => {
-    it("creates the folder if it doesnt exist", done => {
+    it("creates the folder if it doesnt exist", (done) => {
       const file = `${fromDir}/doesntExist`;
       expect(fs.existsSync(file)).toBe(false);
       ensureDir(file)
@@ -131,12 +131,12 @@ describe("fileOperations", () => {
           expect(fs.existsSync(file)).toBe(true);
           done();
         })
-        .catch(err => done.fail(err));
+        .catch((err) => done.fail(err));
     });
   });
 
   describe("move files", () => {
-    it("moves a list of files", done => {
+    it("moves a list of files", (done) => {
       const sourceFilename = `${fromDir}/complete/someFile.mp4`;
       expect(fs.existsSync(sourceFilename)).toBe(true);
       const expectedFileName = `${toDir}/someFile.mp4`;
@@ -148,12 +148,12 @@ describe("fileOperations", () => {
           expect(fs.existsSync(expectedFileName)).toBe(true);
           done();
         })
-        .catch(err => done.fail(err));
+        .catch((err) => done.fail(err));
     });
   });
 
   describe("append to log", () => {
-    it("appends to the specified file", done => {
+    it("appends to the specified file", (done) => {
       const before = fs.readFileSync(`${fromDir}/${logfile}`, "utf8"); //?
       const newLog = "Something something dark side";
       appendToLog(fromDir, logfile, newLog)
@@ -163,7 +163,7 @@ describe("fileOperations", () => {
           expect(after).toContain(newLog);
           done();
         })
-        .catch(err => done.fail(err));
+        .catch((err) => done.fail(err));
     });
   });
 });

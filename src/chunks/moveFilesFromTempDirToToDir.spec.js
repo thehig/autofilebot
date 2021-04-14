@@ -1,13 +1,13 @@
 console.log(""); // use log before requiring mockfs to prevent 'callsites' error
 const mock = require("mock-fs");
-const fs = require('fs');
+const fs = require("fs");
 
 const config = require("config");
 const tempDir = config.get("temp"); //?
 const toDir = config.get("to"); //?
 
-const { walk } = require("./fileOperations");
-const postProcess = require("./postProcessing");
+const { walk } = require("../fileOperations");
+const postProcess = require("./postProcess");
 
 describe("postProcessing", () => {
   // beforeEach(() => {
@@ -19,19 +19,19 @@ describe("postProcessing", () => {
   });
 
   describe("errors if", () => {
-    it("missing fromDir", done => {
+    it("missing fromDir", (done) => {
       postProcess()
         .then(() => done.fail())
-        .catch(err => {
+        .catch((err) => {
           expect(err.message).toContain("missing");
           done();
         });
     });
 
-    it("missing toDir", done => {
+    it("missing toDir", (done) => {
       postProcess("someparam")
         .then(() => done.fail())
-        .catch(err => {
+        .catch((err) => {
           expect(err.message).toContain("missing");
           done();
         });
@@ -43,7 +43,7 @@ describe("postProcessing", () => {
   it("moves 1 file from temp to existing destination", () => {
     mock({
       [tempDir]: {
-        "Ash vs Evil Dead - 3x06 - Tales from the Rift.mkv": ""
+        "Ash vs Evil Dead - 3x06 - Tales from the Rift.mkv": "",
       },
       [toDir]: {
         "Ash vs Evil Dead": {
@@ -51,22 +51,22 @@ describe("postProcessing", () => {
           "Ash vs Evil Dead - 3x02 - Booth Three.mkv": "",
           "Ash vs Evil Dead - 3x03 - Apparently Dead.mkv": "",
           "Ash vs Evil Dead - 3x04 - Unfinished Business.mkv": "",
-          "Ash vs Evil Dead - 3x05 - Baby Proof.mkv": ""
-        }
-      }
+          "Ash vs Evil Dead - 3x05 - Baby Proof.mkv": "",
+        },
+      },
     });
 
     const before = () =>
       walk(tempDir)
-        .then(f => expect(f).toHaveLength(1))
+        .then((f) => expect(f).toHaveLength(1))
         .then(() => walk(toDir))
-        .then(f => expect(f).toHaveLength(5));
+        .then((f) => expect(f).toHaveLength(5));
 
     const after = () =>
       walk(tempDir)
-        .then(f => expect(f).toHaveLength(0))
+        .then((f) => expect(f).toHaveLength(0))
         .then(() => walk(toDir))
-        .then(f => expect(f).toHaveLength(6));
+        .then((f) => expect(f).toHaveLength(6));
 
     return before()
       .then(() => postProcess(tempDir, toDir))
@@ -76,22 +76,22 @@ describe("postProcessing", () => {
   it("moves 1 file from temp to non-existing destination", () => {
     mock({
       [tempDir]: {
-        "Ash vs Evil Dead - 3x06 - Tales from the Rift.mkv": ""
+        "Ash vs Evil Dead - 3x06 - Tales from the Rift.mkv": "",
       },
-      [toDir]: {}
+      [toDir]: {},
     });
 
     const before = () =>
       walk(tempDir)
-        .then(f => expect(f).toHaveLength(1))
+        .then((f) => expect(f).toHaveLength(1))
         .then(() => walk(toDir))
-        .then(f => expect(f).toHaveLength(0));
+        .then((f) => expect(f).toHaveLength(0));
 
     const after = () =>
       walk(tempDir)
-        .then(f => expect(f).toHaveLength(0))
+        .then((f) => expect(f).toHaveLength(0))
         .then(() => walk(toDir))
-        .then(f => {
+        .then((f) => {
           expect(f).toHaveLength(1);
           expect(f[0]).toContain(
             "Ash vs Evil Dead\\Ash vs Evil Dead - 3x06 - Tales from the Rift.mkv"
@@ -113,37 +113,37 @@ describe("postProcessing", () => {
         "Planet Earth II - 1x02 - Mountains.mkv": "",
         "Last Week Tonight with John Oliver - 1x11 - Episode 11.mp4": "",
         "Marvel's Agents of S.H.I.E.L.D. - 2x01 - Shadows.mkv": "",
-        "The Marvelous Mrs. Maisel - 1x05 - Doink.mkv": ""
+        "The Marvelous Mrs. Maisel - 1x05 - Doink.mkv": "",
       },
       [toDir]: {
         "Archer (2009)": {
-          "Archer (2009) - 8x02 - Archer Dreamland Berenice.mkv": ""
+          "Archer (2009) - 8x02 - Archer Dreamland Berenice.mkv": "",
         },
         "Dr Who": {
-          "Doctor Who (2005) - 10x02 - Smile.mkv": ""
+          "Doctor Who (2005) - 10x02 - Smile.mkv": "",
         },
         "Last Week Tonight": {
-          "Last Week Tonight with John Oliver - 1x16 - Episode 16.mp4": ""
+          "Last Week Tonight with John Oliver - 1x16 - Episode 16.mp4": "",
         },
         "Planet Earth 2": { "Planet Earth II - 1x03 - Jungles.mkv": "" },
         "Marvels Agents of Shield": {
           "Marvel's Agents of S.H.I.E.L.D. - 5x21 - The Force of Gravity.mkv":
-            ""
-        }
-      }
+            "",
+        },
+      },
     });
 
     const before = () =>
       walk(tempDir)
-        .then(f => expect(f).toHaveLength(8))
+        .then((f) => expect(f).toHaveLength(8))
         .then(() => walk(toDir))
-        .then(f => expect(f).toHaveLength(5));
+        .then((f) => expect(f).toHaveLength(5));
 
     const after = () =>
       walk(tempDir)
-        .then(f => expect(f).toHaveLength(2))
+        .then((f) => expect(f).toHaveLength(2))
         .then(() => walk(toDir))
-        .then(f => {
+        .then((f) => {
           expect(fs.readdirSync(toDir)).toHaveLength(6);
           expect(f).toHaveLength(11);
           expect(f).toMatchSnapshot();

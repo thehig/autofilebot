@@ -1,4 +1,4 @@
-const { resolveSubstitutions, exec } = require("./exec");
+const { resolveSubstitutions, exec } = require("./");
 
 describe("exec", () => {
   describe("resolveSubstitutions", () => {
@@ -46,9 +46,13 @@ describe("exec", () => {
       it("supports chaining", () => {
         const input = "cmd do $FIRST$ $SECOND$ $THIRD$";
         expect(
-          resolveSubstitutions(input, { first: "$THIRD$", second: "$THIRD$", third: "c" })
+          resolveSubstitutions(input, {
+            first: "$THIRD$",
+            second: "$THIRD$",
+            third: "c",
+          })
         ).toEqual("cmd do c c c");
-      })
+      });
     });
   });
 });
