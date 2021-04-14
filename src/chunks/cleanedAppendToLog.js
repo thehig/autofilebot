@@ -1,6 +1,6 @@
 const config = require("config");
 
-const { appendToLog } = require("../fileOperations");
+const appendToLog = require("./appendToLog");
 
 // #region Config
 const tempDir = config.get("temp");

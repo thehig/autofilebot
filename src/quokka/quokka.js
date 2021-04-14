@@ -2,12 +2,12 @@
 const walkPath = require("config").get("to");
 
 const id = require("./identifier");
-const { walk } = require("./fileOperations");
+const walk = require("./walk");
 
-const buildDictionary = filepaths => {
+const buildDictionary = (filepaths) => {
   const dictionary = {};
 
-  filepaths.map(filepath => {
+  filepaths.map((filepath) => {
     const details = id(filepath);
     const { show } = details;
     if (!dictionary[show]) {
@@ -20,10 +20,10 @@ const buildDictionary = filepaths => {
   return dictionary;
 };
 
-const episodeCount = dict =>
-  Object.keys(dict).map(show => [show, dict[show].length]);
+const episodeCount = (dict) =>
+  Object.keys(dict).map((show) => [show, dict[show].length]);
 
-const errorCheck = dictionary => {
+const errorCheck = (dictionary) => {
   let issues = [];
   for (let show in dictionary) {
     const episodes = dictionary[show];
@@ -34,11 +34,11 @@ const errorCheck = dictionary => {
         show,
         ep,
         title,
-        path: { parent, filepath, unprocessed }
+        path: { parent, filepath, unprocessed },
       } = episode;
       const errors = {
         filepath,
-        issues: []
+        issues: [],
       };
 
       // Check for missing elements
@@ -60,8 +60,6 @@ const errorCheck = dictionary => {
   return issues;
 };
 
-const fileFilter = filepath => filepath.indexOf("desktop.ini") === -1;
+const fileFilter = (filepath) => filepath.indexOf("desktop.ini") === -1;
 
-walk(walkPath, fileFilter)
-  .then(buildDictionary)
-  .then(errorCheck); //?
+walk(walkPath, fileFilter).then(buildDictionary).then(errorCheck); //?

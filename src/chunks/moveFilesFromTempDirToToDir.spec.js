@@ -6,7 +6,7 @@ const config = require("config");
 const tempDir = config.get("temp"); //?
 const toDir = config.get("to"); //?
 
-const { walk } = require("../fileOperations");
+const walk = require("./walk");
 const postProcess = require("./postProcess");
 
 describe("postProcessing", () => {

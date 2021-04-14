@@ -3,7 +3,8 @@ const fs = require("fs-extra");
 const debug = require("config").get("debug");
 const chalk = require("chalk");
 
-const { getVideos, ensureDir } = require("../fileOperations");
+const getVideos = require("./getVideos");
+const ensureDir = require("./ensureDir");
 const showNameIdentifier = require("./showNameIdentifier");
 
 const postProcess = (fromDir, toDir) =>

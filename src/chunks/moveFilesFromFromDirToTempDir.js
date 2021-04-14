@@ -1,7 +1,8 @@
 const chalk = require("chalk");
 const config = require("config");
 
-const { ensureDir, moveFiles } = require("../fileOperations");
+const ensureDir = require("./ensureDir");
+const moveFiles = require("./moveFiles");
 
 const fromDir = config.get("from");
 const tempDir = config.get("temp");

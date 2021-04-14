@@ -1,6 +1,6 @@
 const config = require("config");
 
-const { getVideos } = require("../fileOperations");
+const getVideos = require("./getVideos");
 
 const fromDir = config.get("from");
 const getVideosInFromDir = () =>
