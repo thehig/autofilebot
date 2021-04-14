@@ -3,9 +3,9 @@ const mock = require("mock-fs");
 const fs = require("fs");
 
 const config = require("config");
-const fromDir = config.get("from"); //?
-const toDir = config.get("to"); //?
-const logfile = config.get("log"); //?
+const fromDir = config.get("from");
+const toDir = config.get("to");
+const logfile = config.get("log");
 
 const fileStructure = {
   [fromDir]: {
