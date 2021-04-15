@@ -1,8 +1,6 @@
-const config = require("config");
-
 const getVideos = require("./getVideos");
+const fromDir = require("config").get("from");
 
-const fromDir = config.get("from");
 const getVideosInFromDir = () =>
   getVideos(fromDir).then((filenames) => {
     if (!filenames.length) {

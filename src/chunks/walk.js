@@ -2,8 +2,7 @@ const fs = require("fs-extra");
 const path = require("path");
 const chalk = require("chalk");
 
-const config = require("config");
-const debug = config.get("debug");
+const debug = require("config").get("debug");
 
 const _walk = function (dir, done) {
   var results = [];

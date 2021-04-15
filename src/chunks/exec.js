@@ -5,6 +5,7 @@ const util = require("util");
 const _exec = util.promisify(require("child_process").exec);
 
 const resolveSubstitutions = require("./resolveSubstitutions");
+const { cleanedAppendToLog } = require("./appendToLog");
 
 const exec = (inputCommand, substitutions) =>
   new Promise((resolve) => {
@@ -15,4 +16,21 @@ const exec = (inputCommand, substitutions) =>
     resolve(_exec(command));
   });
 
-module.exports = exec;
+// Write success output to log
+const execAndLog = (...params) =>
+  exec(...params)
+    .then((log) => cleanedAppendToLog("OK", ...params, log.stdout))
+    // Write error output to log
+    .catch((log) =>
+      cleanedAppendToLog("ERROR", ...params, log.stderr).then(
+        // Rethrow the error
+        () => {
+          throw new Error(log.stderr);
+        }
+      )
+    );
+
+module.exports = {
+  exec,
+  execAndLog,
+};

@@ -1,8 +1,7 @@
-const config = require("config");
+const { execAndLog } = require("./exec");
 
-const execAndLog = require("./execAndLog");
+const takeOwnershipCommand = require("config").get("takeOwnershipCommand");
 
-const takeOwnershipCommand = config.get("takeOwnershipCommand");
 const takeOwnership = (directory) =>
   execAndLog(takeOwnershipCommand, {
     directory: directory.replace(/\//g, "\\"),

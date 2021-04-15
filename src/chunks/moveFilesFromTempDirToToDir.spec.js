@@ -1,4 +1,4 @@
-console.log(""); // use log before requiring mockfs to prevent 'callsites' error
+// console.log(""); // use log before requiring mockfs to prevent 'callsites' error
 const mock = require("mock-fs");
 const fs = require("fs");
 

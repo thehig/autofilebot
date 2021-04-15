@@ -3,11 +3,10 @@ const config = require("config");
 
 const ensureDir = require("./ensureDir");
 const moveFiles = require("./moveFiles");
+const prettifyFileList = require("./prettifyFileList");
 
 const fromDir = config.get("from");
 const tempDir = config.get("temp");
-
-const prettifyFileList = require("./prettifyFileList");
 
 // Move files "from/" => "temp/"
 const moveFilesFromFromDirToTempDir = (filenames) => {

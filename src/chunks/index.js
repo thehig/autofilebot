@@ -1,6 +1,4 @@
-const cleanedAppendToLog = require("./cleanedAppendToLog");
-const exec = require("./exec");
-const execAndLog = require("./execAndLog");
+const { exec, execAndLog } = require("./exec");
 const getVideosInFromDir = require("./getVideosInFromDir");
 const moveFilesFromFromDirToTempDir = require("./moveFilesFromFromDirToTempDir");
 const moveFilesFromTempDirToToDir = require("./moveFilesFromTempDirToToDir");
@@ -18,7 +16,7 @@ const isVideo = require("./isVideo");
 const isIgnored = require("./isIgnored");
 const getVideos = require("./getVideos");
 const moveFiles = require("./moveFiles");
-const appendToLog = require("./appendToLog");
+const { appendToLog, cleanedAppendToLog } = require("./appendToLog");
 
 const modules = {
   cleanedAppendToLog,
