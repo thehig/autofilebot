@@ -2,4 +2,7 @@
 const path = require("path");
 process.env.NODE_CONFIG_DIR = path.join(__dirname, "../config");
 
-require("../src/scripts/default.js");
+const main = require("../src/scripts/default.js");
+const fromTV = require("config").get("fromTV");
+
+main(fromTV);

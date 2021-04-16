@@ -1,7 +1,6 @@
 const chalk = require("chalk");
 const config = require("config");
 
-const fromDir = config.get("from");
 const tempDir = config.get("temp");
 const toDir = config.get("to");
 
@@ -14,7 +13,7 @@ const {
   postProcess,
 } = require("../chunks");
 
-const main = () =>
+const main = (fromDir) =>
   /**
    * Get all the videos and put them in the temp dir
    */
@@ -34,20 +33,23 @@ const main = () =>
      */
     .then(() => postProcess(tempDir, toDir));
 
-main()
-  .then(
-    // Output any trailing responses
-    (msg) =>
-      msg &&
-      console.log(
-        chalk.redBright(`Trailing response: ${JSON.stringify(msg, null, 4)}`)
-      )
-  )
-  .catch((err) => console.error(chalk.red(err)))
-  .finally(() => {
-    console.log("Press any key to exit");
+const managedMain = (fromDir) =>
+  main(fromDir)
+    .then(
+      // Output any trailing responses
+      (msg) =>
+        msg &&
+        console.log(
+          chalk.redBright(`Trailing response: ${JSON.stringify(msg, null, 4)}`)
+        )
+    )
+    .catch((err) => console.error(chalk.red(err)))
+    .finally(() => {
+      console.log("Press any key to exit");
 
-    process.stdin.setRawMode(true);
-    process.stdin.resume();
-    process.stdin.on("data", process.exit.bind(process, 0));
-  });
+      process.stdin.setRawMode(true);
+      process.stdin.resume();
+      process.stdin.on("data", process.exit.bind(process, 0));
+    });
+
+module.exports = managedMain;

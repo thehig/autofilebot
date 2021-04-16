@@ -1,7 +1,7 @@
 {
   "debug": true,
   "showConfig": false,
-  "from": "E:/Recent Downloads/_TV",
+  "fromTV": "E:/Recent Downloads/_TV",
   "temp": "E:/Media/Temp",
   "to": "E:/Media/TV",
   "videoExtensions": ["mkv", "avi", "mp4"],

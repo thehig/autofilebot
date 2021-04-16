@@ -2,7 +2,7 @@
   "debug": false,
   "showConfig": false,
 
-  "from": "C:/autofilebot/fixtures/from",
+  "fromTV": "C:/autofilebot/fixtures/from",
   "to": "C:/autofilebot/fixtures/to",
   "temp": "C:/autofilebot/fixtures/temp"
 }
