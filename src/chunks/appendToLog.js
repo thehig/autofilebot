@@ -21,7 +21,7 @@ ${contents}
 `;
     if (debug)
       console.log(
-        chalk.blue("[fileOperations][appendToLog]"),
+        chalk.blue("[appendToLog]"),
         chalk.yellow(destination),
         output
       );

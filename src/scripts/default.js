@@ -5,44 +5,34 @@ const {
   moveFilesFromFromDirToTempDir,
   runFilebotOnTempDir,
   takeOwnershipOfTempDir,
-  moveFilesFromTempDirToToDir
+  moveFilesFromTempDirToToDir,
 } = require("../chunks");
 
-/**
- * Get all the videos and put them in the temp dir
- */
-const gather = () => getVideosInFromDir().then(moveFilesFromFromDirToTempDir);
+const main = () =>
+  /**
+   * Get all the videos and put them in the temp dir
+   */
+  getVideosInFromDir()
+    .then(moveFilesFromFromDirToTempDir)
 
-/**
- * Assume all files in temp dir are TV, filebot and take ownership
- */
-const filebot = () => runFilebotOnTempDir().then(takeOwnershipOfTempDir);
+    /**
+     * Assume all files in temp dir are TV, filebot and take ownership
+     */
+    .then(runFilebotOnTempDir)
+    .then(takeOwnershipOfTempDir)
 
-/**
- * Assume all files in temp dir are TV, move them to destination dir subfolders
- */
-const putVideos = () => moveFilesFromTempDirToToDir();
+    /**
+     * Assume all files in temp dir are TV, move them to destination dir subfolders
+     */
+    .then(moveFilesFromTempDirToToDir);
 
-/**
- * Do all of the above
- */
-const doItAll = () =>
-  gather()
-    .then(filebot)
-    .then(putVideos);
-
-/**
- * ACTUAL TASK THAT GETS INVOKED
- */
-const task = doItAll;
-
-task()
+main()
   .then(
     // Output any trailing responses
-    msg =>
+    (msg) =>
       msg &&
       console.log(
         chalk.redBright(`Trailing response: ${JSON.stringify(msg, null, 4)}`)
       )
   )
-  .catch(err => console.error(chalk.red(err)));
+  .catch((err) => console.error(chalk.red(err)));

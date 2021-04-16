@@ -10,6 +10,8 @@ const tempDir = config.get("temp");
 
 // Move files "from/" => "temp/"
 const moveFilesFromFromDirToTempDir = (filenames) => {
+  if (!filenames || !filenames.length) return;
+
   // User-friendly output
   console.log(
     `Moving ${chalk.yellow(fromDir)} => ${chalk.yellow(tempDir)}`,

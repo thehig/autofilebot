@@ -35,10 +35,9 @@ const walk = (directory, filter) =>
     .then((results) => {
       if (debug)
         console.log(
-          chalk.blue("[fileOperations][walk]"),
+          chalk.blue("[walk]"),
           chalk.yellow(directory),
-          "\n",
-          results
+          results && results.length ? "\n\t" + results : ""
         );
       return results;
     });
