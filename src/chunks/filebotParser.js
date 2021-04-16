@@ -1,7 +1,6 @@
 const chalk = require("chalk");
-const debug = require("config").get("debug");
 
-const debugLog = (execResult, isError) => {
+const log = (execResult, isError) => {
   const message = execResult.message;
   const killed = execResult.killed;
   const code = execResult.code;
@@ -40,7 +39,7 @@ const debugLog = (execResult, isError) => {
 const filebotParser = (execResult, isError) =>
   new Promise((resolve, reject) => {
     if (!execResult) resolve("");
-    if (debug) debugLog(execResult, isError);
+    log(execResult, isError);
 
     if (isError) {
       // The result is an error
@@ -48,8 +47,30 @@ const filebotParser = (execResult, isError) =>
       //    Rename episodes using [TheTVDB] with [Airdate]
       //    No media files: [E:\Media\Temp\autofilebot.log]
       //    Failure (�_�)??
+      // eg:
+      //    Rename episodes using [TheTVDB] with [Airdate]
+      //    Lookup via [Batwoman]
+      //    Fetching episode data for [Batwoman]
+      //    Fetching episode data for [Batman]
+      //    Fetching episode data for [The Batman]
+      //    Fetching episode data for [Batman: The Animated Series]
+      //    Fetching episode data for [The New Batman Adventures]
+      //    Skipped [E:\Media\Temp\Batwoman - 1x09 - Crisis on Infinite Earths (2).mkv] because [E:\Media\Temp\Batwoman - 1x09 - Crisis on Infinite Earths (2).mkv] already exists
+      //    Processed 0 files
       return resolve(execResult.message);
     }
+
+    // The result is a success
+    // eg:
+    //      Rename episodes using [TheTVDB] with [Airdate]
+    //      Lookup via [Batwoman]
+    //      Fetching episode data for [Batwoman]
+    //      Fetching episode data for [Batman]
+    //      Fetching episode data for [The Batman]
+    //      Fetching episode data for [Batman: The Animated Series]
+    //      Fetching episode data for [The New Batman Adventures]
+    //      [MOVE] from [E:\Media\Temp\BEFORENAME.mkv] to [E:\Media\Temp\AFTERNAME.mkv]
+    //      Processed 1 file
 
     return resolve(execResult.stdout);
   });

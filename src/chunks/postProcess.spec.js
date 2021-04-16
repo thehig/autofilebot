@@ -9,7 +9,7 @@ const toDir = config.get("to"); //?
 const walk = require("./walk");
 const postProcess = require("./postProcess");
 
-describe("postProcessing", () => {
+describe("postProcess", () => {
   // beforeEach(() => {
   //   mock(fileStructure);
   // });

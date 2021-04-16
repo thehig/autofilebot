@@ -1,14 +1,9 @@
 const { exec, execAndLog } = require("./exec");
-const getVideosInFromDir = require("./getVideosInFromDir");
-const moveFilesFromFromDirToTempDir = require("./moveFilesFromFromDirToTempDir");
-const moveFilesFromTempDirToToDir = require("./moveFilesFromTempDirToToDir");
 const prettifyFileList = require("./prettifyFileList");
 const resolveSubstitutions = require("./resolveSubstitutions");
 const runFilebot = require("./runFilebot");
-const runFilebotOnTempDir = require("./runFilebotOnTempDir");
 const showNameIdentifier = require("./showNameIdentifier");
 const takeOwnership = require("./takeOwnership");
-const takeOwnershipOfTempDir = require("./takeOwnershipOfTempDir");
 const postProcess = require("./postProcess");
 const walk = require("./walk");
 const ensureDir = require("./ensureDir");
@@ -22,16 +17,11 @@ const modules = {
   cleanedAppendToLog,
   exec,
   execAndLog,
-  getVideosInFromDir,
-  moveFilesFromFromDirToTempDir,
-  moveFilesFromTempDirToToDir,
   prettifyFileList,
   resolveSubstitutions,
   runFilebot,
-  runFilebotOnTempDir,
   showNameIdentifier,
   takeOwnership,
-  takeOwnershipOfTempDir,
   postProcess,
   walk,
   ensureDir,

@@ -7,7 +7,6 @@ const _exec = util.promisify(require("child_process").exec);
 
 const resolveSubstitutions = require("./resolveSubstitutions");
 const { cleanedAppendToLog } = require("./appendToLog");
-const filebotParser = require("./filebotParser");
 const { dplog } = require("./promiseLog");
 
 const exec = (inputCommand, substitutions) =>
@@ -22,16 +21,12 @@ const exec = (inputCommand, substitutions) =>
 const execAndLog = (...params) =>
   exec(...params)
     .then((execResult) =>
-      filebotParser(execResult, false).then((text) =>
-        cleanedAppendToLog("OK", ...params, text)
-      )
+      cleanedAppendToLog("OK", ...params, execResult.stdout)
     )
     .catch((execResult) =>
-      filebotParser(execResult, true).then((text) =>
-        cleanedAppendToLog("ERROR", ...params, text).then(() => {
-          throw new Error(text);
-        })
-      )
+      cleanedAppendToLog("ERROR", ...params, execResult.message).then(() => {
+        throw new Error(execResult.message);
+      })
     );
 
 module.exports = {

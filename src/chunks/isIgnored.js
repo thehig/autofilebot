@@ -1,8 +1,6 @@
-const config = require("config");
+const ignorePatterns = require("config").get("ignorePatterns");
 
 const isIgnored = (filename) =>
-  config
-    .get("ignorePatterns")
-    .some((pattern) => new RegExp(pattern, "i").test(filename));
+  ignorePatterns.some((pattern) => new RegExp(pattern, "i").test(filename));
 
 module.exports = isIgnored;

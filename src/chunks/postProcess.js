@@ -1,11 +1,11 @@
 const path = require("path");
 const fs = require("fs-extra");
-const debug = require("config").get("debug");
 const chalk = require("chalk");
 
 const getVideos = require("./getVideos");
 const ensureDir = require("./ensureDir");
 const showNameIdentifier = require("./showNameIdentifier");
+const { plog } = require("./promiseLog");
 
 const postProcess = (fromDir, toDir) =>
   new Promise((resolve, reject) => {
@@ -18,23 +18,20 @@ const postProcess = (fromDir, toDir) =>
         files.map(({ show, path: { filepath } }) =>
           ensureDir(path.join(toDir, show)).then(() => {
             const destination = path.join(toDir, show, path.basename(filepath));
-            if (debug) {
-              console.log(
-                chalk.blue("[postProcessing]"),
-                chalk.green("[Move]"),
-                chalk.yellow(filepath),
-                "to",
-                chalk.yellow(destination)
-              );
-            }
 
-            return fs.move(filepath, destination).catch((err) => {
-              console.log(
-                chalk.blue("[postProcessing]"),
-                chalk.red(`[error: ${err.message}]`),
-                chalk.yellow(path.basename(filepath))
-              );
-            });
+            return plog(
+              chalk.blue("[postProcess][Move]"),
+              chalk.yellow(filepath),
+              chalk.blue("to"),
+              chalk.yellow(destination)
+            )
+              .then(() => fs.move(filepath, destination))
+              .catch((err) => {
+                console.log(
+                  chalk.red(`[postProcess][error: ${err.message}]`),
+                  chalk.yellow(path.basename(filepath))
+                );
+              });
           })
         )
       )

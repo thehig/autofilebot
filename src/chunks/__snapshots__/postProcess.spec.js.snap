@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`postProcessing moves multiple files from temp to existing and non-existing destinations 1`] = `
+exports[`postProcess moves multiple files from temp to existing and non-existing destinations 1`] = `
 Array [
   "C:\\\\autofilebot\\\\fixtures\\\\to\\\\Archer (2009)\\\\Archer (2009) - 8x02 - Archer Dreamland Berenice.mkv",
   "C:\\\\autofilebot\\\\fixtures\\\\to\\\\Archer (2009)\\\\Archer (2009) - 8x03 - Jane Doe.mkv",
