@@ -1,7 +1,7 @@
 const { plog } = require("./promiseLog");
 const { exec } = require("./exec");
 const { cleanedAppendToLog } = require("./appendToLog");
-const filebotParser = require("./filebotParser");
+const { filebotParser } = require("./filebotParser");
 const chalk = require("chalk");
 const filebotCommand = require("config").get("filebotCommand");
 
@@ -22,4 +22,4 @@ const runFilebot = (directory) =>
       )
   );
 
-module.exports = runFilebot;
+module.exports = { runFilebot };

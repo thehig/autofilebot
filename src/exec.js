@@ -5,9 +5,21 @@ const chalk = require("chalk");
 const util = require("util");
 const _exec = util.promisify(require("child_process").exec);
 
-const resolveSubstitutions = require("./resolveSubstitutions");
 const { cleanedAppendToLog } = require("./appendToLog");
 const { dplog } = require("./promiseLog");
+
+// Iterate through the provided substitutions and attempt to string insert them
+//     eg: .replace("$DIRECTORY$", directory)
+const resolveSubstitutions = (inputCommand, substitutions = {}) => {
+  const result = Object.keys(substitutions).reduce(
+    (prev, next) =>
+      prev.replace(`$${next.toUpperCase()}$`, substitutions[next]),
+    inputCommand
+  );
+  // If the input has changed, but still contains $---$, re-resolve it to support chaining
+  const test = inputCommand !== result && /\$(.*?)\$/.test(result);
+  return test ? resolveSubstitutions(result, substitutions) : result;
+};
 
 const exec = (inputCommand, substitutions) =>
   dplog(
@@ -30,6 +42,7 @@ const execAndLog = (...params) =>
     );
 
 module.exports = {
+  resolveSubstitutions,
   exec,
   execAndLog,
 };

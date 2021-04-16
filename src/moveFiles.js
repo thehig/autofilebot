@@ -27,4 +27,4 @@ const moveFiles = (destination, filenames) =>
     )
   );
 
-module.exports = moveFiles;
+module.exports = { moveFiles };

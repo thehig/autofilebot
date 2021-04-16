@@ -56,4 +56,4 @@ const showNameIdentifier = (filepath) => {
   };
 };
 
-module.exports = showNameIdentifier;
+module.exports = { showNameIdentifier };

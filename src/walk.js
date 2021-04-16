@@ -42,4 +42,4 @@ const walk = (directory, filter) =>
       return results;
     });
 
-module.exports = walk;
+module.exports = { walk };

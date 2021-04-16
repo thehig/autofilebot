@@ -11,4 +11,4 @@ const takeOwnership = (directory) =>
     })
   );
 
-module.exports = takeOwnership;
+module.exports = { takeOwnership };

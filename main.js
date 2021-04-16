@@ -4,14 +4,12 @@ const config = require("config");
 const tempDir = config.get("temp");
 const toDir = config.get("to");
 
-const {
-  getVideos,
-  ensureDir,
-  moveFiles,
-  runFilebot,
-  takeOwnership,
-  postProcess,
-} = require("../chunks");
+const { getVideos } = require("./src/getVideos");
+const { ensureDir } = require("./src/ensureDir");
+const { moveFiles } = require("./src/moveFiles");
+const { runFilebot } = require("./src/runFilebot");
+const { takeOwnership } = require("./src/takeOwnership");
+const { postProcess } = require("./src/postProcess");
 
 const main = (fromDir) =>
   /**

@@ -2,9 +2,9 @@ const path = require("path");
 const fs = require("fs-extra");
 const chalk = require("chalk");
 
-const getVideos = require("./getVideos");
-const ensureDir = require("./ensureDir");
-const showNameIdentifier = require("./showNameIdentifier");
+const { getVideos } = require("./getVideos");
+const { ensureDir } = require("./ensureDir");
+const { showNameIdentifier } = require("./showNameIdentifier");
 const { plog } = require("./promiseLog");
 
 const postProcess = (fromDir, toDir) =>
@@ -39,4 +39,4 @@ const postProcess = (fromDir, toDir) =>
       .then(() => resolve(null));
   });
 
-module.exports = postProcess;
+module.exports = { postProcess };

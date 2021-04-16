@@ -75,4 +75,4 @@ const filebotParser = (execResult, isError) =>
     return resolve(execResult.stdout);
   });
 
-module.exports = filebotParser;
+module.exports = { filebotParser };
