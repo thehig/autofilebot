@@ -3,28 +3,25 @@ const path = require("path");
 const chalk = require("chalk");
 const { plog } = require("./promiseLog");
 
-const moveFiles = (destination, filenames) =>
-  Promise.all(
-    filenames.map((filename) =>
-      plog(
-        chalk.blue("[Move]"),
-        chalk.yellow(filename),
-        chalk.blue("to"),
-        chalk.yellow(path.join(destination, path.basename(filename)))
-      )
-        .then(
-          fs.move(filename, path.join(destination, path.basename(filename)))
-        )
-        .catch((err) => {
-          // Add relevant information to the outgoing error
-          throw new Error(
-            `${err} source: ${filename} dest: ${path.join(
-              destination,
-              path.basename(filename)
-            )})`
-          );
-        })
-    )
-  );
+const moveFile = (destination, filename) =>
+  plog(
+    chalk.blue("[Move]"),
+    chalk.yellow(filename),
+    chalk.blue("to"),
+    chalk.yellow(path.join(destination, path.basename(filename)))
+  )
+    .then(fs.move(filename, path.join(destination, path.basename(filename))))
+    .catch((err) => {
+      // Add relevant information to the outgoing error
+      throw new Error(
+        `${err} source: ${filename} dest: ${path.join(
+          destination,
+          path.basename(filename)
+        )})`
+      );
+    });
 
-module.exports = { moveFiles };
+const moveFiles = (destination, filenames) =>
+  Promise.all(filenames.map((filename) => moveFile(destination, filename)));
+
+module.exports = { moveFile, moveFiles };
