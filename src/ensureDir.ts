@@ -3,7 +3,12 @@ import chalk from "chalk";
 
 import { Debuglog } from "./log";
 
-export const ensureDir = (dir: string) =>
-  Debuglog(chalk.blue("[ensureDir]"), chalk.yellow(dir)).then(() =>
-    fs.ensureDir(dir)
+/**
+ * Ensures directory exists by creating it if necessary
+ *
+ * @param {string} directory File path to check
+ */
+export const ensureDir = (directory: string): Promise<void> =>
+  Debuglog(chalk.blue("[ensureDir]"), chalk.yellow(directory)).then(() =>
+    fs.ensureDir(directory)
   );
