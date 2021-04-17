@@ -1,8 +1,8 @@
-const fs = require("fs-extra");
-const path = require("path");
-const chalk = require("chalk");
-
-const debug = require("config").get("debug");
+import fs from "fs-extra";
+import path from "path";
+import chalk from "chalk";
+import config from "config";
+const debug = config.get("debug");
 
 const _walk = function (dir, done) {
   var results = [];
@@ -27,7 +27,7 @@ const _walk = function (dir, done) {
   });
 };
 
-const walk = (directory, filter) =>
+export const walk = (directory, filter) =>
   new Promise((resolve, reject) =>
     _walk(directory, (err, results) => (err ? reject(err) : resolve(results)))
   )
@@ -41,5 +41,3 @@ const walk = (directory, filter) =>
         );
       return results;
     });
-
-module.exports = { walk };

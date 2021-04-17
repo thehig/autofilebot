@@ -2,7 +2,7 @@ const chalk = require("chalk");
 const config = require("config");
 const loglevel = config.get("loglevel");
 
-enum ELogLevel {
+export enum ELogLevel {
   TRACE = 0,
   DEBUG,
   INFO,
@@ -11,7 +11,7 @@ enum ELogLevel {
   FATAL,
 }
 
-const ConsoleColors = {
+export const ConsoleColors = {
   [ELogLevel.TRACE]: chalk.white,
   [ELogLevel.DEBUG]: chalk.grey,
   [ELogLevel.INFO]: chalk.grey,
@@ -31,24 +31,15 @@ const levelLog = (level: ELogLevel) => (...params: any[]) =>
     resolve(...params);
   });
 
-const Tlog = levelLog(ELogLevel.TRACE);
-const Dlog = levelLog(ELogLevel.DEBUG);
-const Ilog = levelLog(ELogLevel.INFO);
-const Wlog = levelLog(ELogLevel.WARN);
-const Elog = levelLog(ELogLevel.ERROR);
-const Flog = levelLog(ELogLevel.FATAL);
-
-module.exports = {
-  Tlog,
-  Tracelog: Tlog,
-  Dlog,
-  Debuglog: Dlog,
-  Ilog,
-  Infolog: Ilog,
-  Wlog,
-  Warnlog: Wlog,
-  Elog,
-  Errorlog: Elog,
-  Flog,
-  Fatallog: Flog,
-};
+export const Tlog = levelLog(ELogLevel.TRACE);
+export const Tracelog = Tlog;
+export const Dlog = levelLog(ELogLevel.DEBUG);
+export const Debuglog = Dlog;
+export const Ilog = levelLog(ELogLevel.INFO);
+export const Infolog = Ilog;
+export const Wlog = levelLog(ELogLevel.WARN);
+export const Warnlog = Wlog;
+export const Elog = levelLog(ELogLevel.ERROR);
+export const Errorlog = Elog;
+export const Flog = levelLog(ELogLevel.FATAL);
+export const Fatallog = Flog;

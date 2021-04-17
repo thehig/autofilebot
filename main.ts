@@ -1,23 +1,21 @@
 // @ts-ignore
+import chalk from "chalk";
+import config from "config";
+
+import { getVideos } from "./src/getVideos";
+import { ensureDir } from "./src/ensureDir";
+import { moveFiles } from "./src/moveFiles";
+import { runFilebot } from "./src/runFilebot";
+import { takeOwnership } from "./src/takeOwnership";
+import { postProcess } from "./src/postProcess";
+
 const manifest = require("./package.json");
-
-const chalk = require("chalk");
-
 console.log(chalk.magenta(`=====${manifest.name} v${manifest.version}=====`));
-
-const config = require("config");
 
 const tempDir = config.get("temp");
 const toDir = config.get("to");
 
-const { getVideos } = require("./src/getVideos");
-const { ensureDir } = require("./src/ensureDir");
-const { moveFiles } = require("./src/moveFiles");
-const { runFilebot } = require("./src/runFilebot");
-const { takeOwnership } = require("./src/takeOwnership");
-const { postProcess } = require("./src/postProcess");
-
-const main = (fromDir) =>
+export const main = (fromDir) =>
   /**
    * Get all the videos and put them in the temp dir
    */
@@ -37,7 +35,7 @@ const main = (fromDir) =>
      */
     .then(() => postProcess(tempDir, toDir));
 
-const managedMain = (fromDir) =>
+export const managedMain = (fromDir) =>
   main(fromDir)
     .then(
       // Output any trailing responses
@@ -56,4 +54,4 @@ const managedMain = (fromDir) =>
       process.stdin.on("data", process.exit.bind(process, 0));
     });
 
-module.exports = managedMain;
+export default managedMain;

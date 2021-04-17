@@ -1,4 +1,4 @@
-const chalk = require("chalk");
+import chalk from "chalk";
 
 const log = (execResult, isError) => {
   const message = execResult.message;
@@ -36,7 +36,7 @@ const log = (execResult, isError) => {
     );
 };
 
-const filebotParser = (execResult, isError) =>
+export const filebotParser = (execResult, isError) =>
   new Promise((resolve, reject) => {
     if (!execResult) resolve("");
     log(execResult, isError);
@@ -74,5 +74,3 @@ const filebotParser = (execResult, isError) =>
 
     return resolve(execResult.stdout);
   });
-
-module.exports = { filebotParser };

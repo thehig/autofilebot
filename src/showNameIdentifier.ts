@@ -1,4 +1,4 @@
-const path = require("path");
+import path from "path";
 
 const transformers = [
   // === Standard Character Replace/Removal ===
@@ -29,7 +29,7 @@ const cleanShowName = (filename) =>
     filename
   );
 
-const showNameIdentifier = (filepath) => {
+export const showNameIdentifier = (filepath) => {
   // Split the file path at the path separators
   const pathChunks = filepath.split(path.sep);
   // The last one is the file
@@ -55,5 +55,3 @@ const showNameIdentifier = (filepath) => {
     },
   };
 };
-
-module.exports = { showNameIdentifier };

@@ -1,13 +1,14 @@
-const fs = require("fs-extra");
-const path = require("path");
-const chalk = require("chalk");
+import fs from "fs-extra";
+import path from "path";
+import chalk from "chalk";
 
-const config = require("config");
+import config from "config";
+
 const debug = config.get("debug");
 const tempDir = config.get("temp");
 const logFile = config.get("log");
 
-const appendToLog = (directory, filename, contents) =>
+export const appendToLog = (directory, filename, contents) =>
   new Promise((resolve, reject) => {
     if (!contents) return reject("Unable to append empty contents to log");
 
@@ -30,7 +31,7 @@ ${contents}
     );
   });
 
-const cleanedAppendToLog = (...params) => {
+export const cleanedAppendToLog = (...params) => {
   // Replace the tempDir in output with '.'
   //    Done twice to account for either \ or / in the 'output' body
   const backslashDir = new RegExp(tempDir.replace(/\//g, "\\"), "g");
@@ -45,9 +46,4 @@ const cleanedAppendToLog = (...params) => {
       .replace(backslashDir, ".")
       .replace(forwardslashDir, ".")
   );
-};
-
-module.exports = {
-  cleanedAppendToLog,
-  appendToLog,
 };

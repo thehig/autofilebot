@@ -1,10 +1,10 @@
-const fs = require("fs-extra");
-const path = require("path");
-const chalk = require("chalk");
-const { plog } = require("./promiseLog");
+import fs from "fs-extra";
+import path from "path";
+import chalk from "chalk";
+import { Infolog } from "./log";
 
-const moveFile = (destination, filename) =>
-  plog(
+export const moveFile = (destination, filename) =>
+  Infolog(
     chalk.blue("[Move]"),
     chalk.yellow(filename),
     chalk.blue("to"),
@@ -21,7 +21,5 @@ const moveFile = (destination, filename) =>
       );
     });
 
-const moveFiles = (destination, filenames) =>
+export const moveFiles = (destination, filenames) =>
   Promise.all(filenames.map((filename) => moveFile(destination, filename)));
-
-module.exports = { moveFile, moveFiles };

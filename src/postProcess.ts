@@ -1,12 +1,12 @@
-const path = require("path");
-const chalk = require("chalk");
+import path from "path";
+import chalk from "chalk";
 
-const { getVideos } = require("./getVideos");
-const { ensureDir } = require("./ensureDir");
-const { showNameIdentifier } = require("./showNameIdentifier");
-const { moveFile } = require("./moveFiles");
+import { getVideos } from "./getVideos";
+import { ensureDir } from "./ensureDir";
+import { showNameIdentifier } from "./showNameIdentifier";
+import { moveFile } from "./moveFiles";
 
-const postProcess = (fromDir, toDir) =>
+export const postProcess = (fromDir, toDir) =>
   new Promise((resolve, reject) => {
     if (!fromDir || !toDir)
       return reject(new Error("Required parameter is missing"));
@@ -30,5 +30,3 @@ const postProcess = (fromDir, toDir) =>
       .then((promises) => Promise.all(promises))
       .then(() => resolve(null));
   });
-
-module.exports = { postProcess };
