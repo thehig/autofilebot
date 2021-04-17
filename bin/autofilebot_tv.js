@@ -6,3 +6,4 @@ const main = require("../src/main").default;
 const fromTV = require("config").get("fromTV");
 
 main(fromTV);
+

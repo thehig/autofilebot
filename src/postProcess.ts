@@ -6,7 +6,7 @@ import { ensureDir } from "./ensureDir";
 import { showNameIdentifier } from "./showNameIdentifier";
 import { moveFile } from "./moveFiles";
 
-export const postProcess = (fromDir, toDir) =>
+export const postProcess = (fromDir: string, toDir: string) =>
   new Promise((resolve, reject) => {
     if (!fromDir || !toDir)
       return reject(new Error("Required parameter is missing"));

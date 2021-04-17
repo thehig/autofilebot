@@ -1,6 +1,6 @@
 import path from "path";
 
-const transformers = [
+const transformers: ((filename: string) => string)[] = [
   // === Standard Character Replace/Removal ===
   (f) => f.replace(/(-)/g, " "), // Replace special chars with space
   (f) => f.replace(/('|\.)/g, ""), // Remove special chars completely
@@ -23,17 +23,17 @@ const transformers = [
   (f) => f.replace(/\bSHIELD\b/g, "Shield"),
 ];
 
-const cleanShowName = (filename) =>
+const cleanShowName = (filename: string) =>
   transformers.reduce(
     (prev, next) => next(prev), // Call each transformer in order
     filename
   );
 
-export const showNameIdentifier = (filepath) => {
+export const showNameIdentifier = (filepath: string) => {
   // Split the file path at the path separators
   const pathChunks = filepath.split(path.sep);
   // The last one is the file
-  const filename = pathChunks.pop();
+  const filename = <string>pathChunks.pop();
   // The next one is the folder containing the file
   const parent = pathChunks.pop();
   // And we stitch the unused stuff back together

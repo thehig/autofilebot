@@ -30,7 +30,10 @@ const _walk = function (
   });
 };
 
-export const walk = (directory, filter?) =>
+export const walk = (
+  directory: string,
+  filter?: (filename: string) => boolean
+) =>
   new Promise((resolve, reject) =>
     _walk(directory, (err, results) => (err ? reject(err) : resolve(results)))
   )

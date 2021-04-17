@@ -5,10 +5,14 @@ import chalk from "chalk";
 import config from "config";
 
 const debug = config.get("debug");
-const tempDir = config.get("temp");
-const logFile = config.get("log");
+const tempDir: string = config.get("temp");
+const logFile: string = config.get("log");
 
-export const appendToLog = (directory, filename, contents) =>
+export const appendToLog = (
+  directory: string,
+  filename: string,
+  contents: string
+) =>
   new Promise((resolve, reject) => {
     if (!contents) return reject("Unable to append empty contents to log");
 
@@ -31,7 +35,7 @@ ${contents}
     );
   });
 
-export const cleanedAppendToLog = (...params) => {
+export const cleanedAppendToLog = (...params: unknown[]) => {
   // Replace the tempDir in output with '.'
   //    Done twice to account for either \ or / in the 'output' body
   const backslashDir = new RegExp(tempDir.replace(/\//g, "\\"), "g");
@@ -41,7 +45,9 @@ export const cleanedAppendToLog = (...params) => {
     tempDir,
     logFile,
     params
-      .map((p) => (typeof p === "object" ? JSON.stringify(p) : p.toString()))
+      .map((p) =>
+        typeof p === "object" ? JSON.stringify(p) : (<object>p).toString()
+      )
       .join("\n")
       .replace(backslashDir, ".")
       .replace(forwardslashDir, ".")

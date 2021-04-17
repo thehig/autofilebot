@@ -12,10 +12,10 @@ import { postProcess } from "./postProcess";
 const manifest = require("../package.json");
 console.log(chalk.magenta(`=====${manifest.name} v${manifest.version}=====`));
 
-const tempDir = config.get("temp");
-const toDir = config.get("to");
+const tempDir: string = config.get("temp");
+const toDir: string = config.get("to");
 
-export const main = (fromDir) =>
+export const main = (fromDir: string) =>
   /**
    * Get all the videos and put them in the temp dir
    */
@@ -35,7 +35,7 @@ export const main = (fromDir) =>
      */
     .then(() => postProcess(tempDir, toDir));
 
-export const managedMain = (fromDir) =>
+export const managedMain = (fromDir: string) =>
   main(fromDir)
     .then(
       // Output any trailing responses

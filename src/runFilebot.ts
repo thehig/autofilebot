@@ -4,9 +4,9 @@ import { cleanedAppendToLog } from "./appendToLog";
 import { filebotParser } from "./filebotParser";
 import chalk from "chalk";
 import config from "config";
-const filebotCommand = config.get("filebotCommand");
+const filebotCommand: string = config.get("filebotCommand");
 
-export const runFilebot = (directory) =>
+export const runFilebot = (directory: string) =>
   Infolog(chalk.blue("[runFilebot]"), chalk.yellow(directory)).then(() =>
     exec(filebotCommand, { directory })
       .then((execResult) =>

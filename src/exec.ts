@@ -6,9 +6,22 @@ const _exec = util.promisify(child_process.exec);
 import { cleanedAppendToLog } from "./appendToLog";
 import { Debuglog } from "./log";
 
+export interface IExecResult {
+  message?: string;
+  cmd?: string;
+  killed?: boolean;
+  code?: number;
+  signal?: NodeJS.Signals;
+  stdout: string;
+  stderr: string;
+}
+
 // Iterate through the provided substitutions and attempt to string insert them
 //     eg: .replace("$DIRECTORY$", directory)
-export const resolveSubstitutions = (inputCommand, substitutions = {}) => {
+export const resolveSubstitutions = (
+  inputCommand: string,
+  substitutions: Record<string, string> = {}
+): string => {
   const result = Object.keys(substitutions).reduce(
     (prev, next) =>
       prev.replace(`$${next.toUpperCase()}$`, substitutions[next]),
@@ -19,7 +32,10 @@ export const resolveSubstitutions = (inputCommand, substitutions = {}) => {
   return test ? resolveSubstitutions(result, substitutions) : result;
 };
 
-export const exec = (inputCommand, substitutions) =>
+export const exec = (
+  inputCommand: string,
+  substitutions: Record<string, string> = {}
+): Promise<IExecResult> =>
   Debuglog(
     chalk.blue("[exec][Preparing]"),
     chalk.yellow(inputCommand),
@@ -28,7 +44,10 @@ export const exec = (inputCommand, substitutions) =>
   ).then(() => _exec(resolveSubstitutions(inputCommand, substitutions)));
 
 // Write success output to log
-export const execAndLog = (inputCommand, substitutions) =>
+export const execAndLog = (
+  inputCommand: string,
+  substitutions: Record<string, string> = {}
+) =>
   exec(inputCommand, substitutions)
     .then((execResult) =>
       cleanedAppendToLog("OK", inputCommand, substitutions, execResult.stdout)

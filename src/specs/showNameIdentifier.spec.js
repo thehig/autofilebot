@@ -1,5 +1,6 @@
 const id = require("../showNameIdentifier");
 
+// @ts-ignore
 const nyi = (done) => done.fail("Not Yet Implemented");
 
 describe.skip("identifier", () => {

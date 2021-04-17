@@ -1,6 +1,7 @@
 import chalk from "chalk";
+import { IExecResult } from "./exec";
 
-const log = (execResult, isError) => {
+const log = (execResult: IExecResult, isError: boolean) => {
   const message = execResult.message;
   const killed = execResult.killed;
   const code = execResult.code;
@@ -36,7 +37,7 @@ const log = (execResult, isError) => {
     );
 };
 
-export const filebotParser = (execResult, isError) =>
+export const filebotParser = (execResult: IExecResult, isError: boolean) =>
   new Promise((resolve, reject) => {
     if (!execResult) resolve("");
     log(execResult, isError);

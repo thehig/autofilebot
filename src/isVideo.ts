@@ -1,5 +1,5 @@
 import config from "config";
-const videoExtensions = config.get("videoExtensions");
+const videoExtensions: string[] = config.get("videoExtensions");
 
-export const isVideo = (filename) =>
+export const isVideo = (filename: string) =>
   videoExtensions.some((ext) => filename.endsWith(ext));

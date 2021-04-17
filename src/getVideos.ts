@@ -4,7 +4,7 @@ import { walk } from "./walk";
 import { Infolog } from "./log";
 import chalk from "chalk";
 
-export const getVideos = (directory) =>
+export const getVideos = (directory: string) =>
   Infolog(chalk.blue("[getVideos]"), chalk.yellow(directory)).then(() =>
     walk(directory, (filename) => isVideo(filename) && !isIgnored(filename))
   );
