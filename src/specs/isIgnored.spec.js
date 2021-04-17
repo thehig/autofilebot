@@ -1,4 +1,4 @@
-const isIgnored = require("../isIgnored");
+const { isIgnored } = require("../isIgnored");
 
 describe("isIgnored", () => {
   describe("excludes", () => {

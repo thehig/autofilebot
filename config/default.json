@@ -8,5 +8,6 @@
   "ignorePatterns": ["RARBG.mp4", "sample", "incomplete"],
   "filebotCommand": "filebot -rename \"$DIRECTORY$\" --db TheTVDB -non-strict",
   "takeOwnershipCommand": "takeown /r /SKIPSL /f \"$DIRECTORY$\" && icacls \"$DIRECTORY$\" /T /L /Q /C /RESET",
-  "log": "autofilebot.log"
+  "log": "autofilebot.log",
+  "loglevel": 1
 }

@@ -6,8 +6,8 @@ const config = require("config");
 const tempDir = config.get("temp"); //?
 const toDir = config.get("to"); //?
 
-const walk = require("../walk");
-const postProcess = require("../postProcess");
+const { walk } = require("../walk");
+const { postProcess } = require("../postProcess");
 
 describe("postProcess", () => {
   // beforeEach(() => {
@@ -20,6 +20,7 @@ describe("postProcess", () => {
 
   describe("errors if", () => {
     it("missing fromDir", (done) => {
+      // @ts-ignore
       postProcess()
         .then(() => done.fail())
         .catch((err) => {
@@ -29,6 +30,7 @@ describe("postProcess", () => {
     });
 
     it("missing toDir", (done) => {
+      // @ts-ignore
       postProcess("someparam")
         .then(() => done.fail())
         .catch((err) => {

@@ -23,7 +23,7 @@ const fileStructure = {
   },
 };
 
-const getVideos = require("../getVideos");
+const { getVideos } = require("../getVideos");
 
 describe("getVideos", () => {
   beforeEach(() => {

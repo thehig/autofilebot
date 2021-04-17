@@ -2,14 +2,14 @@
 import chalk from "chalk";
 import config from "config";
 
-import { getVideos } from "./src/getVideos";
-import { ensureDir } from "./src/ensureDir";
-import { moveFiles } from "./src/moveFiles";
-import { runFilebot } from "./src/runFilebot";
-import { takeOwnership } from "./src/takeOwnership";
-import { postProcess } from "./src/postProcess";
+import { getVideos } from "./getVideos";
+import { ensureDir } from "./ensureDir";
+import { moveFiles } from "./moveFiles";
+import { runFilebot } from "./runFilebot";
+import { takeOwnership } from "./takeOwnership";
+import { postProcess } from "./postProcess";
 
-const manifest = require("./package.json");
+const manifest = require("../package.json");
 console.log(chalk.magenta(`=====${manifest.name} v${manifest.version}=====`));
 
 const tempDir = config.get("temp");

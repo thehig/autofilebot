@@ -25,7 +25,7 @@ const fileStructure = {
   },
 };
 
-const moveFiles = require("../moveFiles");
+const { moveFiles } = require("../moveFiles");
 
 describe.skip("move files", () => {
   beforeEach(() => {

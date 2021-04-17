@@ -28,13 +28,18 @@ export const exec = (inputCommand, substitutions) =>
   ).then(() => _exec(resolveSubstitutions(inputCommand, substitutions)));
 
 // Write success output to log
-export const execAndLog = (...params) =>
-  exec(...params)
+export const execAndLog = (inputCommand, substitutions) =>
+  exec(inputCommand, substitutions)
     .then((execResult) =>
-      cleanedAppendToLog("OK", ...params, execResult.stdout)
+      cleanedAppendToLog("OK", inputCommand, substitutions, execResult.stdout)
     )
     .catch((execResult) =>
-      cleanedAppendToLog("ERROR", ...params, execResult.message).then(() => {
+      cleanedAppendToLog(
+        "ERROR",
+        inputCommand,
+        substitutions,
+        execResult.message
+      ).then(() => {
         throw new Error(execResult.message);
       })
     );
