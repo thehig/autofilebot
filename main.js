@@ -1,4 +1,10 @@
+// @ts-ignore
+const manifest = require("./package.json");
+
 const chalk = require("chalk");
+
+console.log(chalk.magenta(`=====${manifest.name} v${manifest.version}=====`));
+
 const config = require("config");
 
 const tempDir = config.get("temp");
