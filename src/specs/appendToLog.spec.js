@@ -4,7 +4,9 @@ const fs = require("fs");
 
 const config = require("config");
 const fromDir = config.get("fromTV");
-const toDir = config.get("to");
+const logfile = config.get("log");
+
+const { appendToLog } = require("../appendToLog");
 
 const fileStructure = {
   [fromDir]: {
@@ -25,9 +27,7 @@ const fileStructure = {
   },
 };
 
-const moveFiles = require("./moveFiles");
-
-describe.skip("move files", () => {
+describe("append to log", () => {
   beforeEach(() => {
     mock(fileStructure);
   });
@@ -35,17 +35,14 @@ describe.skip("move files", () => {
   afterEach(() => {
     mock.restore();
   });
-
-  it("moves a list of files", (done) => {
-    const sourceFilename = `${fromDir}/complete/someFile.mp4`;
-    expect(fs.existsSync(sourceFilename)).toBe(true);
-    const expectedFileName = `${toDir}/someFile.mp4`;
-    expect(fs.existsSync(expectedFileName)).toBe(false);
-
-    moveFiles(toDir, [sourceFilename])
+  it("appends to the specified file", (done) => {
+    const before = fs.readFileSync(`${fromDir}/${logfile}`, "utf8"); //?
+    const newLog = "Something something dark side";
+    appendToLog(fromDir, logfile, newLog)
       .then(() => {
-        expect(fs.existsSync(sourceFilename)).toBe(false);
-        expect(fs.existsSync(expectedFileName)).toBe(true);
+        const after = fs.readFileSync(`${fromDir}/${logfile}`, "utf8"); //?
+        expect(after).toContain(before + "\n"); // It adds a newline
+        expect(after).toContain(newLog);
         done();
       })
       .catch((err) => done.fail(err));

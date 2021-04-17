@@ -1,12 +1,8 @@
 // console.log(""); // use log before requiring mockfs to prevent 'callsites' error
 const mock = require("mock-fs");
-const fs = require("fs");
 
 const config = require("config");
 const fromDir = config.get("fromTV");
-const logfile = config.get("log");
-
-const { appendToLog } = require("./appendToLog");
 
 const fileStructure = {
   [fromDir]: {
@@ -27,7 +23,9 @@ const fileStructure = {
   },
 };
 
-describe("append to log", () => {
+const getVideos = require("../getVideos");
+
+describe("getVideos", () => {
   beforeEach(() => {
     mock(fileStructure);
   });
@@ -35,16 +33,12 @@ describe("append to log", () => {
   afterEach(() => {
     mock.restore();
   });
-  it("appends to the specified file", (done) => {
-    const before = fs.readFileSync(`${fromDir}/${logfile}`, "utf8"); //?
-    const newLog = "Something something dark side";
-    appendToLog(fromDir, logfile, newLog)
-      .then(() => {
-        const after = fs.readFileSync(`${fromDir}/${logfile}`, "utf8"); //?
-        expect(after).toContain(before + "\n"); // It adds a newline
-        expect(after).toContain(newLog);
+
+  it("gets the 1 matching video", (done) =>
+    getVideos(fromDir)
+      .then((videos) => {
+        expect(videos.length).toBe(1);
         done();
       })
-      .catch((err) => done.fail(err));
-  });
+      .catch((err) => done.fail(err)));
 });

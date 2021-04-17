@@ -1,4 +1,4 @@
-const isVideo = require("./isVideo");
+const isVideo = require("../isVideo");
 
 describe("isVideo", () => {
   describe("excludes", () => {

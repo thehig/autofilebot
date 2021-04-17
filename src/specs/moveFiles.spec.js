@@ -1,8 +1,10 @@
 // console.log(""); // use log before requiring mockfs to prevent 'callsites' error
 const mock = require("mock-fs");
+const fs = require("fs");
 
 const config = require("config");
 const fromDir = config.get("fromTV");
+const toDir = config.get("to");
 
 const fileStructure = {
   [fromDir]: {
@@ -23,9 +25,9 @@ const fileStructure = {
   },
 };
 
-const getVideos = require("./getVideos");
+const moveFiles = require("../moveFiles");
 
-describe("getVideos", () => {
+describe.skip("move files", () => {
   beforeEach(() => {
     mock(fileStructure);
   });
@@ -34,11 +36,18 @@ describe("getVideos", () => {
     mock.restore();
   });
 
-  it("gets the 1 matching video", (done) =>
-    getVideos(fromDir)
-      .then((videos) => {
-        expect(videos.length).toBe(1);
+  it("moves a list of files", (done) => {
+    const sourceFilename = `${fromDir}/complete/someFile.mp4`;
+    expect(fs.existsSync(sourceFilename)).toBe(true);
+    const expectedFileName = `${toDir}/someFile.mp4`;
+    expect(fs.existsSync(expectedFileName)).toBe(false);
+
+    moveFiles(toDir, [sourceFilename])
+      .then(() => {
+        expect(fs.existsSync(sourceFilename)).toBe(false);
+        expect(fs.existsSync(expectedFileName)).toBe(true);
         done();
       })
-      .catch((err) => done.fail(err)));
+      .catch((err) => done.fail(err));
+  });
 });

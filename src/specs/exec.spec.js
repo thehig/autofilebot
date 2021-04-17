@@ -1,4 +1,4 @@
-const { resolveSubstitutions } = require("./exec");
+const { resolveSubstitutions } = require("../exec");
 
 describe("exec", () => {
   describe("resolveSubstitutions", () => {

@@ -24,7 +24,7 @@ const fileStructure = {
   },
 };
 
-const ensureDir = require("./ensureDir");
+const ensureDir = require("../ensureDir");
 
 describe("ensureDir", () => {
   beforeEach(() => {

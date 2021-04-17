@@ -3,7 +3,7 @@ const mock = require("mock-fs");
 
 const config = require("config");
 const fromDir = config.get("fromTV");
-const walk = require("./walk");
+const walk = require("../walk");
 
 const fileStructure = {
   [fromDir]: {
