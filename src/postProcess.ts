@@ -16,9 +16,9 @@ export const postProcess = (fromDir: string, toDir: string) =>
       .then((files) =>
         files.map(({ show, path: { filepath } }) =>
           ensureDir(path.join(toDir, show)).then(() => {
-            const destination = path.join(toDir, show, path.basename(filepath));
+            const destination = path.join(toDir, show);
 
-            return moveFile(filepath, destination).catch((err) => {
+            return moveFile(destination, filepath).catch((err) => {
               console.log(
                 chalk.red(`[postProcess][error: ${err.message}]`),
                 chalk.yellow(path.basename(filepath))

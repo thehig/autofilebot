@@ -1,10 +1,23 @@
-// @ts-nocheck
+import chalk from "chalk";
 
+// @ts-ignore
+const manifest = require("../package.json");
+
+const preamble = () =>
+  new Promise((resolve) => {
+    console.log(
+      chalk.magenta(`=====${manifest.name} v${manifest.version}=====`)
+    );
+    resolve(null);
+  });
 /**
  * Wrap a promise-generating function in some CLI-behavior
  */
-export const ConsoleWrapper = (func) => (...args) =>
-  func(...args)
+export const ConsoleWrapper = (func: (...params: any[]) => Promise<any>) => (
+  ...args: any[]
+) =>
+  preamble()
+    .then(() => func(...args))
     .then(
       // Output any trailing responses
       (msg) =>

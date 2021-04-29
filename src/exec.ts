@@ -40,7 +40,7 @@ export const exec = (
     chalk.blue("[exec][Preparing]"),
     chalk.yellow(inputCommand),
     chalk.blue("with"),
-    substitutions
+    JSON.stringify(substitutions).replace(/\n/g, "")
   ).then(() => _exec(resolveSubstitutions(inputCommand, substitutions)));
 
 // Write success output to log
