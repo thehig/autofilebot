@@ -5,10 +5,12 @@
   "main": "src/main.ts",
   "scripts": {
     "start": "cross-env NODE_ENV=production ts-node bin/autofilebot_tv.js",
+    "process": "cross-env NODE_ENV=production ts-node bin/autofilebot_process.js",
     "test": "jest"
   },
   "bin": {
-    "autofilebot_tv": "./bin/autofilebot_tv.js"
+    "autofilebot_tv": "./bin/autofilebot_tv.js",
+    "autofilebot_process": "./bin/autofilebot_process.js"
   },
   "author": "",
   "license": "ISC",

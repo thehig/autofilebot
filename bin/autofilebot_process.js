@@ -4,7 +4,6 @@ const chalk = require("chalk");
 process.env.NODE_CONFIG_DIR = path.join(__dirname, "../config");
 
 const config = require("config");
-const fromTV = config.get("fromTV");
 const tempDir = config.get("temp");
 const toDir = config.get("to");
 
@@ -13,6 +12,6 @@ const manifest = require("../package.json");
 console.log(chalk.magenta(`=====${manifest.name} v${manifest.version}=====`));
 
 const wrap = require("../src/consoleWrapper").default;
-const main = require("../src/main").default;
+const { postProcess } = require("../src/postProcess");
 
-wrap(main)(fromTV, tempDir, toDir);
+wrap(postProcess)(tempDir, toDir);

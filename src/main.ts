@@ -1,6 +1,5 @@
 // @ts-ignore
 import chalk from "chalk";
-import config from "config";
 
 import { getVideos } from "./getVideos";
 import { ensureDir } from "./ensureDir";
@@ -9,13 +8,7 @@ import { runFilebot } from "./runFilebot";
 import { takeOwnership } from "./takeOwnership";
 import { postProcess } from "./postProcess";
 
-const manifest = require("../package.json");
-console.log(chalk.magenta(`=====${manifest.name} v${manifest.version}=====`));
-
-const tempDir: string = config.get("temp");
-const toDir: string = config.get("to");
-
-export const main = (fromDir: string) =>
+export const Main = (fromDir: string, tempDir: string, toDir: string) =>
   /**
    * Get all the videos and put them in the temp dir
    */
@@ -35,23 +28,4 @@ export const main = (fromDir: string) =>
      */
     .then(() => postProcess(tempDir, toDir));
 
-export const managedMain = (fromDir: string) =>
-  main(fromDir)
-    .then(
-      // Output any trailing responses
-      (msg) =>
-        msg &&
-        console.log(
-          chalk.redBright(`Trailing response: ${JSON.stringify(msg, null, 4)}`)
-        )
-    )
-    .catch((err) => console.error(chalk.red(err)))
-    .finally(() => {
-      console.log("Press any key to exit");
-
-      process.stdin.setRawMode(true);
-      process.stdin.resume();
-      process.stdin.on("data", process.exit.bind(process, 0));
-    });
-
-export default managedMain;
+export default Main;
