@@ -1,3 +1,4 @@
+// @ts-ignore
 const id = require("../showNameIdentifier");
 
 // @ts-ignore

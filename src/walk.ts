@@ -1,9 +1,7 @@
 import fs from "fs-extra";
 import path from "path";
 import chalk from "chalk";
-import config from "config";
-import { Debuglog } from "log";
-const debug = config.get("debug");
+import { Debuglog } from "./log";
 
 /**
  * Recursively traverse dir for files
@@ -28,10 +26,10 @@ const _walk = function (
     list.forEach(function (_found_path) {
       const found_path = path.resolve(directory, _found_path);
       // Get information about the @found_path which could be a directory
-      fs.stat(found_path, function (err, stat) {
+      fs.stat(found_path, function (_err, stat) {
         if (stat && stat.isDirectory()) {
           // Traverse into directory
-          _walk(found_path, function (err, res) {
+          _walk(found_path, function (_err, res) {
             // Combine directory results with previous results
             results = results.concat(res);
             // None pending => Callback with results

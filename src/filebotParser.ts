@@ -38,7 +38,7 @@ const log = (execResult: IExecResult, isError: boolean) => {
 };
 
 export const filebotParser = (execResult: IExecResult, isError: boolean) =>
-  new Promise((resolve, reject) => {
+  new Promise((resolve, _reject) => {
     if (!execResult) resolve("");
     log(execResult, isError);
 
