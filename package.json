@@ -21,13 +21,8 @@
     "jest": "^26.6.3",
     "jest-cli": "^26.6.3",
     "mock-fs": "^4.14.0",
+    "ts-jest": "^26.5.5",
     "typescript": "^4.2.4"
-  },
-  "jest": {
-    "testEnvironment": "node",
-    "testPathIgnorePatterns": [
-      "/config/"
-    ]
   },
   "dependencies": {
     "chalk": "^4.1.1",
