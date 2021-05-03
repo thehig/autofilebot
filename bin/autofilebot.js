@@ -1,8 +1,5 @@
-// #!/usr/bin/env node
-
+#!/usr/bin/env node
 import { usage } from "yargs";
-import { join } from "path";
-process.env.NODE_CONFIG_DIR = join(__dirname, "../config");
 
 import { get } from "config";
 const fromDir = get("fromTV");

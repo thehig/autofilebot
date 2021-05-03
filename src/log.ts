@@ -20,12 +20,14 @@ export const ConsoleColors = {
   [ELogLevel.FATAL]: chalk.red,
 };
 
+const ColorNames = ["TRACE", "DEBUG", "INFO", "WARN", "ERROR", "FATAL"];
+
 const levelLog = (level: ELogLevel) => (...params: any[]) =>
   new Promise((resolve) => {
     // @ts-ignore
     if (level < loglevel) resolve(...params);
 
-    console.log(ConsoleColors[level](`[${level}]`, ...params));
+    console.log(ConsoleColors[level](`[${ColorNames[level]}]`, ...params));
 
     // @ts-ignore
     resolve(...params);

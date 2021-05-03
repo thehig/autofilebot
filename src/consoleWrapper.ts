@@ -1,12 +1,9 @@
 import chalk from "chalk";
 
-// @ts-ignore
-const manifest = require("../package.json");
-
 const preamble = () =>
   new Promise((resolve) => {
     console.log(
-      chalk.magenta(`=====${manifest.name} v${manifest.version}=====`)
+      chalk.magenta(`=====Autofilebot=====`)
     );
     resolve(null);
   });
