@@ -1,22 +1,22 @@
-#!/usr/bin/env node
+// #!/usr/bin/env node
 
-const yargs = require("yargs");
-const path = require("path");
-process.env.NODE_CONFIG_DIR = path.join(__dirname, "../config");
+import { usage } from "yargs";
+import { join } from "path";
+process.env.NODE_CONFIG_DIR = join(__dirname, "../config");
 
-const config = require("config");
-const fromDir = config.get("fromTV");
-const tempDir = config.get("temp");
-const toDir = config.get("to");
+import { get } from "config";
+const fromDir = get("fromTV");
+const tempDir = get("temp");
+const toDir = get("to");
 
-const main = require("../src/main").default;
-const { postProcess } = require("../src/postProcess");
+import main from "../src/main";
+import { postProcess } from "../src/postProcess";
 
-const wrap = require("../src/consoleWrapper").default;
+import wrap from "../src/consoleWrapper";
 const _postProcess = wrap(postProcess);
 const _main = wrap(main);
 
-const options = yargs.usage("Usage: -p").option("p", {
+const options = usage("Usage: -p").option("p", {
   alias: "postProcess",
   describe: "Move files from the temp dir to their approriate directory",
   type: "boolean",

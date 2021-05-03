@@ -3,6 +3,8 @@ const mock = require("mock-fs");
 const fs = require("fs");
 
 const config = require("config");
+const { ensureDir } = require("../ensureDir");
+
 const fromDir = config.get("fromTV");
 
 const fileStructure = {
@@ -23,8 +25,6 @@ const fileStructure = {
     "autofilebot.log": "...some previous logs...",
   },
 };
-
-const { ensureDir } = require("../ensureDir");
 
 describe("ensureDir", () => {
   beforeEach(() => {

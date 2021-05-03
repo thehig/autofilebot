@@ -27,7 +27,7 @@ const fileStructure = {
 
 const { moveFiles } = require("../moveFiles");
 
-describe.skip("move files", () => {
+describe("move files", () => {
   beforeEach(() => {
     mock(fileStructure);
   });
