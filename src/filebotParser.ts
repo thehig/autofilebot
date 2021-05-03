@@ -10,7 +10,7 @@ const log = (execResult: IExecResult, isError: boolean) => {
   const stdout = execResult.stdout;
   const stderr = execResult.stderr;
 
-  const color = isError ? chalk.red : chalk.blue;
+  const color = isError ? chalk.red : chalk.cyan;
 
   cmd && console.log(color("[filebotParser][cmd]"), cmd);
   message && console.log(color("[filebotParser][message]"), message.trim());

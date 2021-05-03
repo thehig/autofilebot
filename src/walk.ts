@@ -62,13 +62,13 @@ export const walk = (
     .then((results) => (filter ? (<string[]>results).filter(filter) : results))
     .then((results) =>
       Debuglog(
-        chalk.blue("[walk]"),
+        chalk.cyan("[walk]"),
         chalk.yellow(directory),
-        chalk.blue(`[${(<string[]>results).length}]`),
+        chalk.cyan(`[${(<string[]>results).length}]`),
         results && (<string[]>results).length
           ? "\n\t" +
-              chalk.blue("[+] ") +
-              (<string[]>results).join("\n\t" + chalk.blue("[+] "))
+              chalk.cyan("[+] ") +
+              (<string[]>results).join("\n\t" + chalk.cyan("[+] "))
           : ""
       ).then(() => <string[]>results)
     );

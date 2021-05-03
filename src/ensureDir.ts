@@ -9,7 +9,7 @@ import { Debuglog } from "./log";
  * @param {string} directory File path to check
  */
 export const ensureDir = (directory: string): Promise<void> =>
-  Debuglog(chalk.blue("[ensureDir]"), chalk.yellow(directory)).then(() =>
+  Debuglog(chalk.cyan("[ensureDir]"), chalk.yellow(directory)).then(() =>
     fs.ensureDir(directory)
   );
 

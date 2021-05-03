@@ -37,9 +37,9 @@ export const exec = (
   substitutions: Record<string, string> = {}
 ): Promise<IExecResult> =>
   Debuglog(
-    chalk.blue("[exec][Preparing]"),
+    chalk.cyan("[exec][Preparing]"),
     chalk.yellow(inputCommand),
-    chalk.blue("with"),
+    chalk.cyan("with"),
     JSON.stringify(substitutions).replace(/\n/g, "")
   ).then(() => _exec(resolveSubstitutions(inputCommand, substitutions)));
 

@@ -7,7 +7,7 @@ import config from "config";
 const filebotCommand: string = config.get("filebotCommand");
 
 export const runFilebot = (directory: string) =>
-  Infolog(chalk.blue("[runFilebot]"), chalk.yellow(directory)).then(() =>
+  Infolog(chalk.cyan("[runFilebot]"), chalk.yellow(directory)).then(() =>
     exec(filebotCommand, { directory })
       .then((execResult) =>
         filebotParser(execResult, false).then((text) =>

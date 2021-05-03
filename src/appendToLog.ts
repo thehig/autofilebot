@@ -26,7 +26,7 @@ ${contents}
 `;
     if (debug)
       console.log(
-        chalk.blue("[appendToLog]"),
+        chalk.cyan("[appendToLog]"),
         chalk.yellow(destination),
         output
       );

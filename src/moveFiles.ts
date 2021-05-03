@@ -5,9 +5,9 @@ import { Infolog } from "./log";
 
 export const moveFile = (destination: string, filename: string) =>
   Infolog(
-    chalk.blue("[move]"),
+    chalk.cyan("[move]"),
     chalk.yellow(filename),
-    chalk.blue("to"),
+    chalk.cyan("to"),
     chalk.yellow(path.join(destination, path.basename(filename)))
   )
     .then(() =>
