@@ -64,6 +64,8 @@ export const walk = (
       Debuglog(
         chalk.blue("[walk]"),
         chalk.yellow(directory),
-        results && (<string[]>results).length ? "\n\t" + results : ""
+        results && (<string[]>results).length
+          ? "\n\t" + (<string[]>results).join("\n\t")
+          : ""
       ).then(() => <string[]>results)
     );

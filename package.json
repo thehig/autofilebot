@@ -4,13 +4,12 @@
   "description": "",
   "main": "src/main.ts",
   "scripts": {
-    "start": "cross-env NODE_ENV=production ts-node bin/autofilebot_tv.js",
-    "process": "cross-env NODE_ENV=production ts-node bin/autofilebot_process.js",
-    "test": "jest"
+    "start": "cross-env NODE_ENV=production ts-node bin/main.js",
+    "test": "jest",
+    "build": "tsc"
   },
   "bin": {
-    "autofilebot_tv": "./bin/autofilebot_tv.js",
-    "autofilebot_process": "./bin/autofilebot_process.js"
+    "autofilebot": "./bin/main.js"
   },
   "author": "",
   "license": "ISC",
@@ -34,6 +33,8 @@
     "chalk": "^4.1.0",
     "config": "^3.3.6",
     "cross-env": "^7.0.3",
-    "fs-extra": "^9.1.0"
+    "fs-extra": "^9.1.0",
+    "typescript-bundle": "^1.0.17",
+    "yargs": "^15.4.1"
   }
 }
