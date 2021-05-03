@@ -9,7 +9,7 @@ const toDir = config.get("to"); //?
 const { walk } = require("../walk");
 const { postProcess } = require("../postProcess");
 
-describe("postProcess", () => {
+describe.only("postProcess", () => {
   // beforeEach(() => {
   //   mock(fileStructure);
   // });
@@ -149,6 +149,45 @@ describe("postProcess", () => {
           expect(fs.readdirSync(toDir)).toHaveLength(6);
           expect(f).toHaveLength(11);
           expect(f).toMatchSnapshot();
+        });
+
+    return before()
+      .then(() => postProcess(tempDir, toDir))
+      .then(() => after());
+  });
+
+  it.only("moves multiple files from temp to non-existing destinations", () => {
+    const mockFilesystem = {
+      [tempDir]: {
+        "Ash vs Evil Dead - 3x06 - Tales from the Rift.mkv": "",
+        "Only Fools And Horses - 1x01 - Something.mkv": "",
+        "Only Fools And Horses - 1x02 - Something Else.mkv": "",
+        "Stargate - 1x01 - Stargate.mkv": "",
+      },
+      [toDir]: {},
+    };
+
+    // @ts-ignore
+    mock(mockFilesystem);
+
+    const before = () =>
+      walk(tempDir)
+        .then((tempFiles) => expect(tempFiles).toHaveLength(4))
+        .then(() => walk(toDir))
+        .then((toFiles) => expect(toFiles).toHaveLength(0));
+
+    const after = () =>
+      walk(tempDir)
+        .then((tempFiles) => expect(tempFiles).toHaveLength(0))
+        .then(() => walk(toDir))
+        .then((toFiles) => {
+          expect(toFiles).toHaveLength(4);
+          expect(toFiles[0]).toContain(
+            "Ash vs Evil Dead\\Ash vs Evil Dead - 3x06 - Tales from the Rift.mkv"
+          );
+          expect(toFiles[1]).toContain(
+            "Only Fools And Horses\\Only Fools And Horses - 1x01 - Something.mkv"
+          );
         });
 
     return before()

@@ -12,3 +12,10 @@ export const ensureDir = (directory: string): Promise<void> =>
   Debuglog(chalk.blue("[ensureDir]"), chalk.yellow(directory)).then(() =>
     fs.ensureDir(directory)
   );
+
+function onlyUnique(value: unknown, index: number, self: Array<unknown>) {
+  return self.indexOf(value) === index;
+}
+
+export const ensureDirs = (directories: string[]): Promise<void[]> =>
+  Promise.all(directories.filter(onlyUnique).map(ensureDir));
