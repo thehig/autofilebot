@@ -1,6 +1,7 @@
 // console.log(""); // use log before requiring mockfs to prevent 'callsites' error
 const mock = require("mock-fs");
 const fs = require("fs");
+const sinon = require("sinon");
 
 const config = require("config");
 const tempDir = config.get("temp"); //?
@@ -8,8 +9,9 @@ const toDir = config.get("to"); //?
 
 const { walk } = require("../walk");
 const { postProcess } = require("../postProcess");
+const EnsureDir = require("../ensureDir");
 
-describe.only("postProcess", () => {
+describe("postProcess", () => {
   // beforeEach(() => {
   //   mock(fileStructure);
   // });
@@ -156,43 +158,55 @@ describe.only("postProcess", () => {
       .then(() => after());
   });
 
-  it.only("moves multiple files from temp to non-existing destinations", () => {
-    const mockFilesystem = {
-      [tempDir]: {
-        "Ash vs Evil Dead - 3x06 - Tales from the Rift.mkv": "",
-        "Only Fools And Horses - 1x01 - Something.mkv": "",
-        "Only Fools And Horses - 1x02 - Something Else.mkv": "",
-        "Stargate - 1x01 - Stargate.mkv": "",
-      },
-      [toDir]: {},
-    };
+  describe("with spies", () => {
+    /** @type {sinon.SinonSpy<[directory: string], Promise<void>>} */
+    let spy;
+    beforeEach(() => {
+      spy = sinon.spy(EnsureDir, "ensureDir");
+    });
 
-    // @ts-ignore
-    mock(mockFilesystem);
+    afterEach(() => {
+      spy.restore();
+    });
 
-    const before = () =>
-      walk(tempDir)
-        .then((tempFiles) => expect(tempFiles).toHaveLength(4))
-        .then(() => walk(toDir))
-        .then((toFiles) => expect(toFiles).toHaveLength(0));
+    it("moves multiple files from temp to non-existing destinations", () => {
+      const mockFilesystem = {
+        [tempDir]: {
+          "Ash vs Evil Dead - 3x06 - Tales from the Rift.mkv": "",
+          "Only Fools And Horses - 1x01 - Something.mkv": "",
+          "Only Fools And Horses - 1x02 - Something Else.mkv": "",
+          "Stargate - 1x01 - Stargate.mkv": "",
+          "Battlestar Galactica - 1x01 - Battlestar Galactica.mkv": "",
+        },
+        [toDir]: {},
+      };
 
-    const after = () =>
-      walk(tempDir)
-        .then((tempFiles) => expect(tempFiles).toHaveLength(0))
-        .then(() => walk(toDir))
-        .then((toFiles) => {
-          expect(toFiles).toHaveLength(4);
-          expect(toFiles[0]).toContain(
-            "Ash vs Evil Dead\\Ash vs Evil Dead - 3x06 - Tales from the Rift.mkv"
-          );
-          expect(toFiles[1]).toContain(
-            "Only Fools And Horses\\Only Fools And Horses - 1x01 - Something.mkv"
-          );
-        });
+      // @ts-ignore
+      mock(mockFilesystem);
 
-    return before()
-      .then(() => postProcess(tempDir, toDir))
-      .then(() => after());
+      const numFiles = Object.keys(mockFilesystem[tempDir]).length;
+      const numUniqueShows = 4;
+
+      const before = () =>
+        walk(tempDir)
+          .then((tempFiles) => expect(tempFiles).toHaveLength(numFiles))
+          .then(() => walk(toDir))
+          .then((toFiles) => expect(toFiles).toHaveLength(0))
+          .then(() => expect(spy.callCount).toBe(0));
+
+      const after = () =>
+        walk(tempDir)
+          .then((tempFiles) => expect(tempFiles).toHaveLength(0))
+          .then(() => walk(toDir))
+          .then((toFiles) => {
+            expect(spy.callCount).toBe(numUniqueShows); // We don't call for every entry, but rather every *show*
+            expect(toFiles).toHaveLength(numFiles);
+          });
+
+      return before()
+        .then(() => postProcess(tempDir, toDir))
+        .then(() => after());
+    });
   });
 
   /**
