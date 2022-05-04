@@ -1,5 +1,5 @@
-const chalk = require("chalk");
-const config = require("config");
+import chalk from 'chalk';
+import config from 'config';
 const loglevel = config.get("loglevel");
 
 export enum ELogLevel {

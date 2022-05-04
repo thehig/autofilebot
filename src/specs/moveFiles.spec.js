@@ -1,8 +1,8 @@
 // console.log(""); // use log before requiring mockfs to prevent 'callsites' error
-const mock = require("mock-fs");
-const fs = require("fs");
+import mock from "mock-fs";
+import fs from "fs";
 
-const config = require("config");
+import config from "config";
 const fromDir = config.get("fromTV");
 const toDir = config.get("to");
 
@@ -25,7 +25,7 @@ const fileStructure = {
   },
 };
 
-const { moveFiles } = require("../moveFiles");
+import { moveFiles } from "../moveFiles";
 
 describe("move files", () => {
   beforeEach(() => {
