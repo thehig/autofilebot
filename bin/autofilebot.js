@@ -1,27 +1,14 @@
 #!/usr/bin/env node
-import { usage } from "yargs";
+// import { usage } from "yargs";
 
-import { get } from "config";
-const fromDir = get("fromTV");
-const tempDir = get("temp");
-const toDir = get("to");
+const config = require("config");
+const fromDir = config.get("fromTV");
+const tempDir = config.get("temp");
+const toDir = config.get("to");
 
-import main from "../src/main";
-import { postProcess } from "../src/postProcess";
-
-import wrap from "../src/consoleWrapper";
-const _postProcess = wrap(postProcess);
+const main = require("../src/main").default;
+const wrap = require("../src/consoleWrapper").default;
+// @ts-ignore
 const _main = wrap(main);
 
-const options = usage("Usage: -p").option("p", {
-  alias: "postProcess",
-  describe: "Move files from the temp dir to their approriate directory",
-  type: "boolean",
-  demandOption: false,
-}).argv;
-
-if (options["post-process"]) {
-  _postProcess(tempDir, toDir);
-} else {
-  _main(fromDir, tempDir, toDir);
-}
+_main(fromDir, tempDir, toDir);

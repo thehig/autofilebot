@@ -1,4 +1,16 @@
 {
+  "name": "autofilebot",
+  "version": "1.2.0",
+  "description": "",
+  "main": "bin/autofilebot.js",
+  "scripts": {
+    "start": "cross-env NODE_ENV=production ts-node bin/autofilebot.js",
+    "test": "jest",
+    "build": "tsc"
+  },
+  "bin": {
+    "autofilebot": "./build/bin/autofilebot.js"
+  },
   "devDependencies": {
     "@types/chalk": "^2.2.0",
     "@types/config": "^0.0.41",
@@ -11,9 +23,6 @@
     "sinon": "^13.0.2",
     "ts-jest": "^28.0.1",
     "typescript": "^4.6.4"
-  },
-  "scripts": {
-    "test": "jest"
   },
   "dependencies": {
     "chalk": "^4.1.2",

@@ -1,9 +1,9 @@
 {
   "debug": true,
   "showConfig": false,
-  "fromTV": "E:/Recent Downloads/_TV",
-  "temp": "E:/Media/Temp",
-  "to": "E:/Media/TV",
+  "fromTV": "C:/Users/makes/Downloads/Torrents/Complete/_TV",
+  "temp": "C:/Users/makes/Downloads/Torrents/Temp",
+  "to": "M:/TV",
   "videoExtensions": ["mkv", "avi", "mp4"],
   "ignorePatterns": ["RARBG.mp4", "sample", "incomplete"],
   "filebotCommand": "filebot -rename \"$DIRECTORY$\" --db TheTVDB -non-strict",
