@@ -1,4 +1,4 @@
-const { isIgnored } = require("../isIgnored");
+import { isIgnored } from "../isIgnored";
 
 describe("isIgnored", () => {
   describe("excludes", () => {

@@ -1,11 +1,11 @@
 // console.log(""); // use log before requiring mockfs to prevent 'callsites' error
-const mock = require("mock-fs");
-const fs = require("fs");
+import mock from "mock-fs";
+import fs from "fs";
 
-const config = require("config");
-const { ensureDir, ensureDirs } = require("../ensureDir");
+import config from "config";
+import { ensureDir, ensureDirs } from "../ensureDir";
 
-const fromDir = config.get("fromTV");
+const fromDir:string = config.get("fromTV");
 
 const fileStructure = {
   [fromDir]: {

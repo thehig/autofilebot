@@ -1,15 +1,15 @@
 // console.log(""); // use log before requiring mockfs to prevent 'callsites' error
-const mock = require("mock-fs");
-const fs = require("fs");
-const sinon = require("sinon");
+import mock from "mock-fs";
+import fs from "fs";
+import sinon from "sinon";
 
-const config = require("config");
-const tempDir = config.get("temp"); //?
-const toDir = config.get("to"); //?
+import config from "config";
+const tempDir: string = config.get("temp"); //?
+const toDir: string = config.get("to"); //?
 
-const { walk } = require("../walk");
-const { postProcess } = require("../postProcess");
-const EnsureDir = require("../ensureDir");
+import { walk } from "../walk";
+import { postProcess } from "../postProcess";
+import * as EnsureDir from "../ensureDir";
 
 describe("postProcess", () => {
   // beforeEach(() => {
@@ -159,8 +159,7 @@ describe("postProcess", () => {
   });
 
   describe("with spies", () => {
-    /** @type {sinon.SinonSpy<[directory: string], Promise<void>>} */
-    let spy;
+    let spy: sinon.SinonSpy<[directory: string], Promise<void>>;
     beforeEach(() => {
       spy = sinon.spy(EnsureDir, "ensureDir");
     });

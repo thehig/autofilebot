@@ -1,8 +1,8 @@
 // console.log(""); // use log before requiring mockfs to prevent 'callsites' error
-const mock = require("mock-fs");
+import mock from "mock-fs";
 
-const config = require("config");
-const fromDir = config.get("fromTV");
+import config from "config";
+const fromDir: string = config.get("fromTV");
 
 const fileStructure = {
   [fromDir]: {
@@ -23,7 +23,7 @@ const fileStructure = {
   },
 };
 
-const { getVideos } = require("../getVideos");
+import { getVideos } from "../getVideos";
 
 describe("getVideos", () => {
   beforeEach(() => {
@@ -34,11 +34,8 @@ describe("getVideos", () => {
     mock.restore();
   });
 
-  it("gets the 1 matching video", (done) =>
-    getVideos(fromDir)
-      .then((videos) => {
-        expect(videos.length).toBe(1);
-        done();
-      })
-      .catch((err) => done.fail(err)));
+  it("gets the 1 matching video", () =>
+    getVideos(fromDir).then((videos) => {
+      expect(videos.length).toBe(1);
+    }));
 });

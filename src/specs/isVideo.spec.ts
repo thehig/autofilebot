@@ -1,4 +1,4 @@
-const { isVideo } = require("../isVideo");
+import { isVideo } from "../isVideo";
 
 describe("isVideo", () => {
   describe("excludes", () => {

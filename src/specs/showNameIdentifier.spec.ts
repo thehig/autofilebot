@@ -1,5 +1,5 @@
 // @ts-ignore
-const id = require("../showNameIdentifier");
+import id from "../showNameIdentifier";
 
 // @ts-ignore
 const nyi = (done) => done.fail("Not Yet Implemented");

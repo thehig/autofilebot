@@ -3,21 +3,12 @@ module.exports = function (wallaby) {
 
   return {
     files: [
-      // "package.json",
-      // "bin/*.js?(x)",
       "config/**/*.*",
-      "src/**/*.js?(x)",
-      "src/**/*.ts?(x)",
-      "src/**/*.snap",
-      "!src/specs/*.js?(x)",
+      "src/*.ts",
+      "src/*.snap",
+      "!src/specs/*.spec.ts",
     ],
 
-    tests: ["src/**/*.spec.js?(x)"],
-
-    env: {
-      type: "node",
-    },
-
-    testFramework: "jest",
+    tests: ["src/specs/*.spec.ts"],
   };
 };

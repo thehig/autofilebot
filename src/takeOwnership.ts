@@ -1,8 +1,9 @@
 import { execAndLog } from "./exec";
 import chalk from "chalk";
 import { Infolog } from "./log";
+import config from 'config';
 
-const takeOwnershipCommand = require("config").get("takeOwnershipCommand");
+const takeOwnershipCommand = <string>config.get("takeOwnershipCommand");
 
 export const takeOwnership = (directory: string) =>
   Infolog(chalk.cyan("[takeOwnership]"), chalk.yellow(directory)).then(() =>

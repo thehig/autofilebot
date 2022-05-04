@@ -1,10 +1,12 @@
 // console.log(""); // use log before requiring mockfs to prevent 'callsites' error
-const mock = require("mock-fs");
-const fs = require("fs");
+import mock from "mock-fs";
+import fs from "fs";
 
-const config = require("config");
-const fromDir = config.get("fromTV");
-const toDir = config.get("to");
+import config from "config";
+const fromDir:string = config.get("fromTV");
+const logfile: string = config.get("log");
+
+import { appendToLog } from "../appendToLog";
 
 const fileStructure = {
   [fromDir]: {
@@ -25,9 +27,7 @@ const fileStructure = {
   },
 };
 
-const { moveFiles } = require("../moveFiles");
-
-describe("move files", () => {
+describe("append to log", () => {
   beforeEach(() => {
     mock(fileStructure);
   });
@@ -35,17 +35,14 @@ describe("move files", () => {
   afterEach(() => {
     mock.restore();
   });
-
-  it("moves a list of files", (done) => {
-    const sourceFilename = `${fromDir}/complete/someFile.mp4`;
-    expect(fs.existsSync(sourceFilename)).toBe(true);
-    const expectedFileName = `${toDir}/someFile.mp4`;
-    expect(fs.existsSync(expectedFileName)).toBe(false);
-
-    moveFiles(toDir, [sourceFilename])
+  it("appends to the specified file", (done) => {
+    const before = fs.readFileSync(`${fromDir}/${logfile}`, "utf8"); //?
+    const newLog = "Something something dark side";
+    appendToLog(fromDir, logfile, newLog)
       .then(() => {
-        expect(fs.existsSync(sourceFilename)).toBe(false);
-        expect(fs.existsSync(expectedFileName)).toBe(true);
+        const after = fs.readFileSync(`${fromDir}/${logfile}`, "utf8"); //?
+        expect(after).toContain(before + "\n"); // It adds a newline
+        expect(after).toContain(newLog);
         done();
       })
       .catch((err) => done.fail(err));
