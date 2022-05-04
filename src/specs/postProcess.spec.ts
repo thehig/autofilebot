@@ -9,7 +9,7 @@ const toDir: string = config.get("to"); //?
 
 import { walk } from "../walk";
 import { postProcess } from "../postProcess";
-import { ensureDir } from "../ensureDir";
+import * as EnsureDir from "../ensureDir";
 
 describe("postProcess", () => {
   // beforeEach(() => {
@@ -159,8 +159,7 @@ describe("postProcess", () => {
   });
 
   describe("with spies", () => {
-    /** @type {sinon.SinonSpy<[directory: string], Promise<void>>} */
-    let spy;
+    let spy: sinon.SinonSpy<[directory: string], Promise<void>>;
     beforeEach(() => {
       spy = sinon.spy(EnsureDir, "ensureDir");
     });

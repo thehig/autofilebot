@@ -4,7 +4,7 @@ import fs from "fs";
 
 import config from "config";
 const fromDir:string = config.get("fromTV");
-const logfile = config.get("log");
+const logfile: string = config.get("log");
 
 import { appendToLog } from "../appendToLog";
 

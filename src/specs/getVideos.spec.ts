@@ -2,7 +2,7 @@
 import mock from "mock-fs";
 
 import config from "config";
-const fromDir:string = config.get("fromTV");
+const fromDir: string = config.get("fromTV");
 
 const fileStructure = {
   [fromDir]: {
@@ -34,11 +34,8 @@ describe("getVideos", () => {
     mock.restore();
   });
 
-  it("gets the 1 matching video", (done) =>
-    getVideos(fromDir)
-      .then((videos) => {
-        expect(videos.length).toBe(1);
-        done();
-      })
-      .catch((err) => done.fail(err)));
+  it("gets the 1 matching video", () =>
+    getVideos(fromDir).then((videos) => {
+      expect(videos.length).toBe(1);
+    }));
 });

@@ -2,7 +2,7 @@
 import mock from "mock-fs";
 
 import config from "config";
-const fromDir:string = config.get("fromTV");
+const fromDir: string = config.get("fromTV");
 import { walk } from "../walk";
 
 const fileStructure = {
@@ -33,34 +33,29 @@ describe("walk", () => {
     mock.restore();
   });
 
-  it(`${fromDir} returns 8 files from mock fs`, (done) =>
-    walk(`${fromDir}`)
-      .then((files) => {
-        expect(files.length).toBe(8);
-        done();
-      })
-      .catch((err) => done.fail(err)));
-  it(`takes an array filter fn (1)`, (done) =>
-    walk(`${fromDir}`, (file) => file.indexOf("RARBG") === -1)
-      .then((files) => {
-        expect(files.length).toBe(7);
-        done();
-      })
-      .catch((err) => done.fail(err)));
-  it(`takes an array filter fn (2)`, (done) =>
-    walk(`${fromDir}`, (file) => file.indexOf("someFile") === -1)
-      .then((files) => {
+  it(`${fromDir} returns 8 files from mock fs`, () =>
+    walk(`${fromDir}`).then((files) => {
+      expect(files.length).toBe(8);
+    }));
+  it(`takes an array filter fn (1)`, () =>
+    walk(`${fromDir}`, (file) => file.indexOf("RARBG") === -1).then((files) => {
+      expect(files.length).toBe(7);
+    }));
+
+  it(`takes an array filter fn (2)`, () =>
+    walk(`${fromDir}`, (file) => file.indexOf("someFile") === -1).then(
+      (files) => {
         expect(files.length).toBe(2);
-        done();
-      })
-      .catch((err) => done.fail(err)));
-  it("catches a broken filter", (done) =>
+      }
+    ));
+  it("catches a broken filter", () =>
     walk(`${fromDir}`, () => {
       throw new Error("should catch");
     })
-      .then(() => done.fail("Should have thrown"))
+      .then(() => {
+        throw new Error("Should have thrown");
+      })
       .catch((err) => {
         expect(err.message).toContain("should catch");
-        done();
       }));
 });
