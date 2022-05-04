@@ -1,4 +1,4 @@
-import { Infolog } from "./log";
+import { Infolog } from "../wrap/log";
 import { exec } from "./exec";
 import { cleanedAppendToLog } from "./appendToLog";
 import { filebotParser } from "./filebotParser";

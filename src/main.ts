@@ -3,8 +3,8 @@ import chalk from "chalk";
 
 import { getVideos } from "./getVideos";
 import { ensureDir } from "./ensureDir";
-import { moveFiles } from "./moveFiles";
-import { runFilebot } from "./runFilebot";
+import { moveFiles } from "./fs/moveFiles";
+import { runFilebot } from "./exec/runFilebot";
 import { takeOwnership } from "./takeOwnership";
 import { postProcess } from "./postProcess";
 

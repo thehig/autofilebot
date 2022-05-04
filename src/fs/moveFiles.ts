@@ -1,7 +1,7 @@
 import fs from "fs-extra";
 import path from "path";
 import chalk from "chalk";
-import { Infolog } from "./log";
+import { Infolog } from "../wrap/log";
 
 export const moveFile = (destination: string, filename: string) =>
   Infolog(

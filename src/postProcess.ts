@@ -4,7 +4,7 @@ import chalk from "chalk";
 import { getVideos } from "./getVideos";
 import { ensureDirs } from "./ensureDir";
 import { showNameIdentifier } from "./showNameIdentifier";
-import { moveFile } from "./moveFiles";
+import { moveFile } from "./fs/moveFiles";
 
 export const postProcess = (fromDir: string, toDir: string) =>
   new Promise((resolve, reject) => {
