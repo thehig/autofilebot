@@ -4,7 +4,7 @@ import chalk from "chalk";
 import { getVideos } from "./getVideos";
 import { ensureDir } from "./fs/ensureDir";
 import { moveFiles } from "./fs/moveFiles";
-import { runFilebot } from "./exec/runFilebot";
+import { runFilebot } from "./exec/filebot";
 import { takeOwnership } from "./fs/takeOwnership";
 import { postProcess } from "./postProcess";
 

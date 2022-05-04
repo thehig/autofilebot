@@ -1,5 +1,4 @@
-import { isVideo } from "./identify/isVideo";
-import { isIgnored } from "./identify/isIgnored";
+import { video as isVideo, ignored as isIgnored } from "./identify/is";
 import { walk } from "./fs/walk";
 import { Infolog } from "./wrap/log";
 import chalk from "chalk";

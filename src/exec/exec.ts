@@ -3,7 +3,7 @@ import util from "util";
 import child_process from "child_process";
 const _exec = util.promisify(child_process.exec);
 
-import { cleanedAppendToLog } from "../wrap/appendToLog";
+import { cleanedAppendToLog } from "../wrap/append";
 import { Debuglog } from "../wrap/log";
 
 export interface IExecResult {

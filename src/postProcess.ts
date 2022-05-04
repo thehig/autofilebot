@@ -3,7 +3,7 @@ import chalk from "chalk";
 
 import { getVideos } from "./getVideos";
 import { ensureDirs } from "./fs/ensureDir";
-import { showNameIdentifier } from "./identify/showNameIdentifier";
+import { showNameIdentifier } from "./identify/showName";
 import { moveFile } from "./fs/moveFiles";
 
 export const postProcess = (fromDir: string, toDir: string) =>

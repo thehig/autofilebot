@@ -6,7 +6,7 @@ import config from "config";
 const fromDir:string = config.get("fromTV");
 const logfile: string = config.get("log");
 
-import { appendToLog } from "./appendToLog";
+import { appendToLog } from "./append";
 
 const fileStructure = {
   [fromDir]: {

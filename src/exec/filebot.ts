@@ -1,7 +1,7 @@
 import { Infolog } from "../wrap/log";
 import { exec } from "./exec";
-import { cleanedAppendToLog } from "../wrap/appendToLog";
-import { filebotParser } from "./filebotParser";
+import { cleanedAppendToLog } from "../wrap/append";
+import { filebotParser } from "../identify/filebot";
 import chalk from "chalk";
 import config from "config";
 const filebotCommand: string = config.get("filebotCommand");

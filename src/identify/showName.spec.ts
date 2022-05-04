@@ -1,5 +1,5 @@
 // @ts-ignore
-import id from "./showNameIdentifier";
+import id from "./showName";
 
 // @ts-ignore
 const nyi = (done) => done.fail("Not Yet Implemented");
