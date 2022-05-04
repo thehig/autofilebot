@@ -4,12 +4,12 @@ import fs from "fs";
 import sinon from "sinon";
 
 import config from "config";
-const tempDir = config.get("temp"); //?
-const toDir = config.get("to"); //?
+const tempDir: string = config.get("temp"); //?
+const toDir: string = config.get("to"); //?
 
 import { walk } from "../walk";
 import { postProcess } from "../postProcess";
-import EnsureDir from "../ensureDir";
+import { ensureDir } from "../ensureDir";
 
 describe("postProcess", () => {
   // beforeEach(() => {

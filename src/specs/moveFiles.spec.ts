@@ -3,8 +3,8 @@ import mock from "mock-fs";
 import fs from "fs";
 
 import config from "config";
-const fromDir = config.get("fromTV");
-const toDir = config.get("to");
+const fromDir:string = config.get("fromTV");
+const toDir:string = config.get("to");
 
 const fileStructure = {
   [fromDir]: {

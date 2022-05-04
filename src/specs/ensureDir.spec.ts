@@ -5,7 +5,7 @@ import fs from "fs";
 import config from "config";
 import { ensureDir, ensureDirs } from "../ensureDir";
 
-const fromDir = config.get("fromTV");
+const fromDir:string = config.get("fromTV");
 
 const fileStructure = {
   [fromDir]: {

@@ -3,7 +3,7 @@ import mock from "mock-fs";
 import fs from "fs";
 
 import config from "config";
-const fromDir = config.get("fromTV");
+const fromDir:string = config.get("fromTV");
 const logfile = config.get("log");
 
 import { appendToLog } from "../appendToLog";
