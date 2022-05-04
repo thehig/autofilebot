@@ -6,17 +6,9 @@ const _exec = util.promisify(child_process.exec);
 import { cleanedAppendToLog } from "../wrap/append";
 import { Debuglog } from "../wrap/log";
 
-export interface IExecResult {
-  message?: string;
-  cmd?: string;
-  killed?: boolean;
-  code?: number;
-  signal?: NodeJS.Signals;
-  stdout: string;
-  stderr: string;
-}
+import { IExecResult } from "types/interfaces";
 
- /**
+/**
  * Iterate through the provided substitutions and attempt to string insert them
  * eg: .replace("$DIRECTORY$", directory)
  *

@@ -1,5 +1,5 @@
 import chalk from "chalk";
-import { IExecResult } from "../exec/exec";
+import { IExecResult } from "types/interfaces";
 
 const log = (execResult: IExecResult, isError: boolean) => {
   const message = execResult.message;

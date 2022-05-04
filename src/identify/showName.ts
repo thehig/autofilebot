@@ -1,5 +1,7 @@
 import path from "path";
 
+import { IShow } from "types/interfaces";
+
 const transformers: ((filename: string) => string)[] = [
   // === Standard Character Replace/Removal ===
   (f) => f.replace(/(-)/g, " "), // Replace special chars with space
@@ -29,7 +31,7 @@ const cleanShowName = (filename: string) =>
     filename
   );
 
-export const showNameIdentifier = (filepath: string) => {
+export const showNameIdentifier = (filepath: string): IShow => {
   // Split the file path at the path separators
   const pathChunks = filepath.split(path.sep);
   // The last one is the file
@@ -43,7 +45,7 @@ export const showNameIdentifier = (filepath: string) => {
   const [show, ep, title, ...otherBits] = filename.split(" - ");
   if (otherBits.length)
     throw new Error(`Unknown file elements: [${otherBits}] in ${filepath}`);
-  return {
+  return <IShow>{
     show: cleanShowName(show), // Clean up the show name
     ep,
     title,

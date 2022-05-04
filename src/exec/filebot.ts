@@ -1,9 +1,13 @@
-import { Infolog } from "../wrap/log";
-import { exec } from "./exec";
-import { cleanedAppendToLog } from "../wrap/append";
-import { filebotParser } from "../identify/filebot";
 import chalk from "chalk";
 import config from "config";
+
+import { exec } from "./exec";
+
+import { Infolog } from "../wrap/log";
+import { cleanedAppendToLog } from "../wrap/append";
+
+import { filebotParser } from "../identify/filebot";
+
 const filebotCommand: string = config.get("filebotCommand");
 
 export const runFilebot = (directory: string) =>
