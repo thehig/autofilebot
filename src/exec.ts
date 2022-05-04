@@ -16,8 +16,14 @@ export interface IExecResult {
   stderr: string;
 }
 
-// Iterate through the provided substitutions and attempt to string insert them
-//     eg: .replace("$DIRECTORY$", directory)
+ /**
+ * Iterate through the provided substitutions and attempt to string insert them
+ * eg: .replace("$DIRECTORY$", directory)
+ *
+ * @param {string} inputCommand A command line command with dollar-wrapped parameters
+ * @param {Record<string, string>} [substitutions={}] An object with parameters keyed for the inputCommand
+ * @return {*}  {string} The input command with the substitutions inserted
+ */
 export const resolveSubstitutions = (
   inputCommand: string,
   substitutions: Record<string, string> = {}

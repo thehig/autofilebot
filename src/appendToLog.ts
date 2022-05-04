@@ -8,6 +8,13 @@ const debug = config.get("debug");
 const tempDir: string = config.get("temp");
 const logFile: string = config.get("log");
 
+ /**
+ * Append `$contents` to the log file at `$directory/$filename`
+ *
+ * @param {string} directory Path to log file directory
+ * @param {string} filename Filename for log file
+ * @param {string} contents String to be appended to log file
+ */
 export const appendToLog = (
   directory: string,
   filename: string,
@@ -35,6 +42,13 @@ ${contents}
     );
   });
 
+
+/**
+ * Append a list of parameters to the `$$tempDir/$$logFile`
+ *
+ * @param {...unknown[]} params
+ * @return {*} 
+ */
 export const cleanedAppendToLog = (...params: unknown[]) => {
   // Replace the tempDir in output with '.'
   //    Done twice to account for either \ or / in the 'output' body
