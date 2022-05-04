@@ -1,4 +1,4 @@
-import { resolveSubstitutions } from "../exec";
+import { resolveSubstitutions } from "./exec";
 
 describe("exec", () => {
   describe("resolveSubstitutions", () => {

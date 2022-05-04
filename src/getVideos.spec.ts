@@ -23,7 +23,7 @@ const fileStructure = {
   },
 };
 
-import { getVideos } from "../getVideos";
+import { getVideos } from "./getVideos";
 
 describe("getVideos", () => {
   beforeEach(() => {

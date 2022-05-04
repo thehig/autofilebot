@@ -7,9 +7,9 @@ import config from "config";
 const tempDir: string = config.get("temp"); //?
 const toDir: string = config.get("to"); //?
 
-import { walk } from "../walk";
-import { postProcess } from "../postProcess";
-import * as EnsureDir from "../ensureDir";
+import { walk } from "./walk";
+import { postProcess } from "./postProcess";
+import * as EnsureDir from "./ensureDir";
 
 describe("postProcess", () => {
   // beforeEach(() => {

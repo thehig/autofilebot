@@ -1,4 +1,4 @@
-import { isVideo } from "../isVideo";
+import { isVideo } from "./isVideo";
 
 describe("isVideo", () => {
   describe("excludes", () => {

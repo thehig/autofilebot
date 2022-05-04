@@ -3,7 +3,7 @@ import mock from "mock-fs";
 import fs from "fs";
 
 import config from "config";
-import { ensureDir, ensureDirs } from "../ensureDir";
+import { ensureDir, ensureDirs } from "./ensureDir";
 
 const fromDir:string = config.get("fromTV");
 

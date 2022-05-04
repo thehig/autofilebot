@@ -6,9 +6,9 @@ module.exports = function (wallaby) {
       "config/**/*.*",
       "src/*.ts",
       "src/*.snap",
-      "!src/specs/*.spec.ts",
+      "!src/*.spec.ts",
     ],
 
-    tests: ["src/specs/*.spec.ts"],
+    tests: ["src/*.spec.ts"],
   };
 };

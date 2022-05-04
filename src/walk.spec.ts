@@ -3,7 +3,7 @@ import mock from "mock-fs";
 
 import config from "config";
 const fromDir: string = config.get("fromTV");
-import { walk } from "../walk";
+import { walk } from "./walk";
 
 const fileStructure = {
   [fromDir]: {
