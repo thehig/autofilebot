@@ -1,7 +1,7 @@
 import fs from "fs-extra";
 import path from "path";
 import chalk from "chalk";
-import { Debuglog } from "./log";
+import { Debuglog } from "../wrap/log";
 
 /**
  * Recursively traverse dir for files

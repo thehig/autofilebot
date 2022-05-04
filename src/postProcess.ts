@@ -2,8 +2,8 @@ import path from "path";
 import chalk from "chalk";
 
 import { getVideos } from "./getVideos";
-import { ensureDirs } from "./ensureDir";
-import { showNameIdentifier } from "./showNameIdentifier";
+import { ensureDirs } from "./fs/ensureDir";
+import { showNameIdentifier } from "./identify/showNameIdentifier";
 import { moveFile } from "./fs/moveFiles";
 
 export const postProcess = (fromDir: string, toDir: string) =>

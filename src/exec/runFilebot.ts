@@ -1,6 +1,6 @@
 import { Infolog } from "../wrap/log";
 import { exec } from "./exec";
-import { cleanedAppendToLog } from "./appendToLog";
+import { cleanedAppendToLog } from "../wrap/appendToLog";
 import { filebotParser } from "./filebotParser";
 import chalk from "chalk";
 import config from "config";

@@ -1,7 +1,7 @@
 import fs from "fs-extra";
 import chalk from "chalk";
 
-import { Debuglog } from "./log";
+import { Debuglog } from "../wrap/log";
 
 /**
  * Ensures directory exists by creating it if necessary

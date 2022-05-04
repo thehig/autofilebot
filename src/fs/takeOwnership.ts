@@ -1,6 +1,6 @@
-import { execAndLog } from "./exec";
+import { execAndLog } from "../exec/exec";
 import chalk from "chalk";
-import { Infolog } from "./log";
+import { Infolog } from "../wrap/log";
 import config from 'config';
 
 const takeOwnershipCommand = <string>config.get("takeOwnershipCommand");
