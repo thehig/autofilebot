@@ -1,4 +1,4 @@
-import { execAndLog } from "../exec/exec";
+import { execAndLog } from "./exec";
 import chalk from "chalk";
 import { Infolog } from "../wrap/log";
 import config from 'config';

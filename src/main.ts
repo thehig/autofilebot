@@ -5,7 +5,7 @@ import { getVideos } from "./getVideos";
 import { ensureDir } from "./fs/ensureDir";
 import { moveFiles } from "./fs/moveFiles";
 import { runFilebot } from "./exec/filebot";
-import { takeOwnership } from "./fs/takeOwnership";
+import { takeOwnership } from "./exec/takeOwnership";
 import { postProcess } from "./postProcess";
 
 export const Main = (fromDir: string, tempDir: string, toDir: string) =>
